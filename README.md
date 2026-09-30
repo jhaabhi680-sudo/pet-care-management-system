@@ -386,3 +386,4 @@ All endpoints are prefixed with `/api`.
 
 ### Q5: How do the Pet Owner and Veterinarian dashboards differ?
 **Ans:** Role-based authorization is enforced on both frontend and backend. While pet owners can only see and book appointments for their own registered pets, veterinarians and administrators have privileges to view all hospital patients, update appointment statuses (`Confirmed`/`Completed`), and record diagnostic medical prescriptions.
+# pet-care-management-system
