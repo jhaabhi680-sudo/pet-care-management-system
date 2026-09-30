@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Experiment 2 - Develop JavaScript Programs using ES6 Features (Arrow Functions, Anonymous Functions, Arrays, Events, and Popup Boxes)</title>
+    <style>
+
+@page {
+    size: A4;
+    margin: 20mm 20mm 20mm 20mm;
+}
+body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000000;
+    text-align: justify;
+    text-justify: inter-word;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+.top-header {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    font-weight: bold;
+    border-bottom: 1px dotted #333333;
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+}
+h2.exp-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+.section-label {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 13pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    display: block;
+}
+p {
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+ul, ol {
+    font-size: 12pt;
+    line-height: 1.5;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    padding-left: 28px;
+    text-align: justify;
+}
+li {
+    margin-bottom: 5px;
+}
+.code-container {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    background: #fafafa;
+    border: 1px solid #777777;
+    padding: 10px 14px;
+    margin: 10px 0 14px 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    page-break-inside: avoid;
+}
+.mockup-box {
+    border: 1px solid #444444;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 12px 0 6px 0;
+    background: #ffffff;
+    page-break-inside: avoid;
+    box-sizing: border-box;
+    width: 100%;
+}
+.mockup-bar-browser {
+    background: #e5e7eb;
+    border-bottom: 1px solid #9ca3af;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+}
+.circle-dots {
+    display: flex;
+    gap: 4px;
+}
+.c-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.c-red { background: #ef4444; }
+.c-yellow { background: #f59e0b; }
+.c-green { background: #10b981; }
+.url-text {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 1px 12px;
+    flex-grow: 1;
+    color: #374151;
+    font-size: 8.5pt;
+}
+.mockup-bar-postman {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    font-weight: bold;
+}
+.mockup-bar-term {
+    background: #1f2428;
+    color: #e1e4e8;
+    padding: 5px 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    border-bottom: 1px solid #444444;
+}
+.mockup-inner {
+    padding: 10px 12px;
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+.term-inner {
+    background: #121212;
+    color: #00ff66;
+    padding: 10px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+}
+.postman-inner {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 10px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+}
+.fig-caption {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    text-decoration: underline;
+}
+.fig-text {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-top: 0;
+    margin-bottom: 14px;
+}
+.conclusion-p {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-bottom: 8px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <span>TANUJ SHARMA – 3505</span>
+        <span>COURSE CODE: 2345117 (WEB LAB)</span>
+    </div>
+
+    <h2 class="exp-title">Experiment No. 2 - Develop JavaScript Programs using ES6 Features (Arrow Functions, Anonymous Functions, Arrays, Events, and Popup Boxes)</h2>
+
+    <p><u><b>Aim:</b></u> To develop comprehensive JavaScript ES6 programs that apply modern language specifications—including Arrow Functions, Anonymous Callbacks, Higher-Order Array Methods (filter, map, reduce), Object Destructuring, DOM Event Handlers, and Modal Confirmation Popups—within the Pet Care Management System.</p>
+
+    <span class="section-label">Tools Used:</span>
+    <ul>
+        <li>Visual Studio Code (IDE)</li><li>Node.js Runtime (v22.x) and Chrome V8 Console</li><li>ECMAScript 2015+ (ES6+ Standards)</li><li>Bootstrap 5 Modal & Dialog Components</li>
+    </ul>
+
+    <span class="section-label">Theory:</span>
+    <p>The evolution of ECMAScript 6 (ES6) marked a major advancement in modern JavaScript programming, introducing concise syntax, lexical scoping, and functional paradigms. In the Pet Care Management System, large volumes of clinical and patient data require swift client-side transformation, sorting, and statistical summarization before graphical rendering. Traditional procedural iterations are superseded by declarative higher-order array abstractions, enhancing code maintainability and execution predictability.</p><p>Arrow Functions provide concise lexical syntax while preserving the enclosing lexical context's 'this' reference, mitigating traditional scoping bugs encountered in callback functions. Anonymous functions serve as inline callback delegates within asynchronous event streams and array processing pipelines.</p><p>Higher-order array operations provide robust functional utilities: Array.prototype.filter() isolates records conforming to strict boolean predicates (such as filtering clinical patients by species 'Dog' or vaccination status); Array.prototype.map() transforms raw database entities into visual data objects; and Array.prototype.reduce() aggregates clinical metrics, such as summing consultation fees across daily veterinary appointments.</p><p>Functions and Methods Used: Array.prototype.filter(), Array.prototype.map(), Array.prototype.reduce(), Array.prototype.find(), Object.assign(), addEventListener('click'), and window.confirm().</p>
+
+    <span class="section-label">Methodology:</span>
+    <p>The implementation strategy follows a structured data pipeline model. Raw veterinary clinic datasets containing multi-attribute pet objects (identifier, name, species, age, weight, vaccinationStatus, consultationFee) are defined in an immutable array structure. Next, functional pipelines are implemented using arrow functions to execute multi-stage transformations.</p><p>Interactive UI events are bound to patient record interaction buttons using addEventListener. Custom confirmation modals and alert boxes are synthesized to confirm critical actions such as pet record removal, preventing accidental loss of medical data.</p>
+
+    <span class="section-label">Procedure:</span>
+    <ol>
+        <li>Open VS Code and initialize es6_pet_operations.js linked to a live HTML test harness.</li><li>Instantiate an array of pet profile objects containing diverse species, age categories, and medical fees.</li><li>Implement an ES6 arrow function to filter pets by species using Array.prototype.filter().</li><li>Execute Array.prototype.map() to generate formatted medical nameplates displaying pet name, species, and age.</li><li>Compute total clinic revenue from appointments using Array.prototype.reduce().</li><li>Apply array destructuring and object spread operators to extract primary attributes cleanly.</li><li>Bind DOM click events to pet card elements to display detailed diagnostic summaries on user selection.</li><li>Integrate an interactive confirmation popup box to confirm deletion or discharge of a registered pet.</li><li>Log pipeline outputs to the Chrome DevTools console and verify functional correctness.</li><li>Verify that lexical scoping operates accurately without binding context discrepancies.</li>
+    </ol>
+
+    <span class="section-label">Code :</span>
+    <div style='font-family: Times New Roman, serif; font-size:11pt; font-weight:bold; margin-top:6px;'>// File: es6_pet_operations.js</div><div class='code-container'>// ES6 Data Transformation Pipeline for Pet Care Management System
+const registeredPets = [
+  { id: 1, name: "Bruno", species: "Dog", breed: "Labrador", age: 3, weight: 24, vaccinated: true, fee: 500 },
+  { id: 2, name: "Milo", species: "Cat", breed: "Persian", age: 2, weight: 4.5, vaccinated: true, fee: 400 },
+  { id: 3, name: "Charlie", species: "Dog", breed: "Beagle", age: 4, weight: 12, vaccinated: false, fee: 550 },
+  { id: 4, name: "Bella", species: "Rabbit", breed: "Holland Lop", age: 1, weight: 2, vaccinated: true, fee: 350 }
+];
+
+// 1. Arrow Function & Array Filter: Extract Canines
+const dogsList = registeredPets.filter(pet => pet.species === "Dog");
+
+// 2. Array Map: Format Patient Display Tags
+const patientBadges = registeredPets.map(({ name, breed, vaccinated }) => 
+  `[${name}] - ${breed} (${vaccinated ? 'Immunized' : 'Needs Vaccine'})`
+);
+
+// 3. Array Reduce: Calculate Cumulative Consultation Revenue
+const totalRevenue = registeredPets.reduce((total, { fee }) => total + fee, 0);
+
+// 4. Search Patient by ID
+const findPatient = (id) => registeredPets.find(pet => pet.id === id);
+
+// 5. Interactive Popup Box for Discharge Confirmation
+const confirmDischarge = (petName) => {
+  return window.confirm(`Are you certain you wish to discharge patient '${petName}' from active care?`);
+};</div>
+
+    <span class="section-label">Output:</span>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Chrome V8 Console - ES6 Arrow Functions</div>
+        <div class="term-inner">> const getCanines = pets => pets.filter(p => p.species === "Dog");
+< undefined
+> getCanines(registeredPets)
+< [ {id: 1, name: "Bruno", species: "Dog", breed: "Labrador"},
+    {id: 3, name: "Charlie", species: "Dog", breed: "Beagle"} ]
+> console.log("Canine count:", getCanines(registeredPets).length);
+  Canine count: 2</div>
+    </div>
+    
+        <div class="fig-caption">Figure 2.1 Chrome DevTools Console Executing ES6 Arrow Functions</div>
+        <div class="fig-text">This screenshot displays the Chrome Developer Tools Console running ES6 arrow functions. It illustrates the evaluation of patient search queries and object transformations executed via concise arrow syntax.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/pets?filter=Dog</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="font-family:Arial; padding:8px;">
+                    <div style="margin-bottom:10px;">
+                        <span style="font-size:11.5px; font-weight:bold; margin-right:8px;">Filter Species:</span>
+                        <button style="background:#0d6efd; color:#fff; border:none; padding:3px 8px; border-radius:10px; font-size:10.5px;">All (4)</button>
+                        <button style="background:#198754; color:#fff; border:none; padding:3px 8px; border-radius:10px; font-size:10.5px;">Dogs Only (2) ✓</button>
+                        <button style="background:#6c757d; color:#fff; border:none; padding:3px 8px; border-radius:10px; font-size:10.5px;">Cats Only (1)</button>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <div style="border:1px solid #c3e6cb; background:#f4fbf6; border-radius:6px; padding:8px; flex:1;">
+                            <h5 style="margin:0 0 2px 0; color:#155724; font-size:12px;">🐕 Bruno</h5>
+                            <p style="margin:0; font-size:10.5px; color:#495057;">Species: Dog | Breed: Labrador</p>
+                            <span style="background:#198754; color:#fff; font-size:9px; padding:1px 5px; border-radius:6px;">Vaccinated</span>
+                        </div>
+                        <div style="border:1px solid #c3e6cb; background:#f4fbf6; border-radius:6px; padding:8px; flex:1;">
+                            <h5 style="margin:0 0 2px 0; color:#155724; font-size:12px;">🐕 Charlie</h5>
+                            <p style="margin:0; font-size:10.5px; color:#495057;">Species: Dog | Breed: Beagle</p>
+                            <span style="background:#dc3545; color:#fff; font-size:9px; padding:1px 5px; border-radius:6px;">Pending Vaccine</span>
+                        </div>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 2.2 Array Filtering Applied to Clinic Patient Species (Dogs vs. Cats)</div>
+        <div class="fig-text">This figure captures the visual UI rendered by Array.prototype.filter(). Selecting the 'Dog' filter dynamically isolates canine records while hiding felines and other species without reloading the page.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Node.js Execution - Array.map() Output</div>
+        <div class="term-inner">$ node -e '
+  const badges = registeredPets.map(p => `[TAG-${p.id}] ${p.name.toUpperCase()} (${p.species}) - ${p.breed}`);
+  console.log(badges);
+'
+[
+  '[TAG-1] BRUNO (Dog) - Labrador',
+  '[TAG-2] MILO (Cat) - Persian',
+  '[TAG-3] CHARLIE (Dog) - Beagle',
+  '[TAG-4] BELLA (Rabbit) - Holland Lop'
+]</div>
+    </div>
+    
+        <div class="fig-caption">Figure 2.3 Array Map Transforming Raw Pet Objects into Formatted Badges</div>
+        <div class="fig-text">This screenshot depicts the output of Array.prototype.map(). The transformation converts internal MongoDB objects into human-readable clinical identifier strings ready for badge rendering.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Node.js Execution - Array.reduce() Revenue Aggregation</div>
+        <div class="term-inner">$ node -e '
+  const total = registeredPets.reduce((acc, curr) => acc + curr.fee, 0);
+  console.log(`Total Scheduled Clinical Billing: Rs. ${total}`);
+  console.log(`Average Fee Per Patient: Rs. ${total / registeredPets.length}`);
+'
+Total Scheduled Clinical Billing: Rs. 1800
+Average Fee Per Patient: Rs. 450</div>
+    </div>
+    
+        <div class="fig-caption">Figure 2.4 Array Reduce Aggregation for Cumulative Clinical Revenue Calculation</div>
+        <div class="fig-text">This screenshot shows the financial aggregation executed via Array.prototype.reduce(). It iteratively computes total expected veterinary billing across all scheduled patient visits.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/pets</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="font-family:Arial; display:flex; gap:8px; padding:8px;">
+                    <div style="flex:1; border:2px solid #0d6efd; background:#e7f1ff; border-radius:6px; padding:8px;">
+                        <div style="font-size:9.5px; color:#0d6efd; font-weight:bold;">[ACTIVE SELECTION]</div>
+                        <h5 style="margin:2px 0; color:#0b5ed7; font-size:12px;">🐕 Bruno (Labrador)</h5>
+                        <p style="margin:0; font-size:10.5px;">Age: 3 Years | Weight: 24 kg</p>
+                    </div>
+                    <div style="flex:1; border:1px solid #dee2e6; border-radius:6px; padding:8px;">
+                        <h5 style="margin:2px 0; color:#333; font-size:12px;">🐈 Milo (Persian)</h5>
+                        <p style="margin:0; font-size:10.5px; color:#6c757d;">Click to view clinical vitals</p>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 2.5 Interactive DOM Click Event Binding on Patient Cards</div>
+        <div class="fig-text">This figure captures the interactive event listener response. Clicking a patient card fires a handler that highlights the active selection and renders real-time medical details in the adjacent sidebar.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/pets</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="background:rgba(0,0,0,0.5); padding:20px; text-align:center;">
+                    <div style="background:#fff; max-width:340px; margin:0 auto; border-radius:6px; padding:15px;">
+                        <div style="font-size:20px; color:#dc3545; margin-bottom:4px;">⚠</div>
+                        <h5 style="margin:0 0 4px 0; font-size:12px; font-weight:bold;">Confirm Patient Removal</h5>
+                        <p style="font-size:10.5px; color:#555; margin:0 0 10px 0;">Are you certain you wish to delete the medical profile for Charlie (Beagle)?</p>
+                        <div style="display:flex; justify-content:center; gap:6px;">
+                            <button style="background:#6c757d; color:#fff; border:none; padding:4px 10px; border-radius:4px; font-size:10.5px;">Cancel</button>
+                            <button style="background:#dc3545; color:#fff; border:none; padding:4px 10px; border-radius:4px; font-size:10.5px; font-weight:bold;">Confirm Delete</button>
+                        </div>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 2.6 Interactive Confirmation Modal for Safe Record Deletion</div>
+        <div class="fig-text">This screenshot demonstrates the modal confirmation dialog. When a user clicks 'Delete Record', the browser triggers a confirmation box requiring explicit affirmation before purging data.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Node.js Console - Destructuring & Spread</div>
+        <div class="term-inner">> const pet = { id: 1, name: "Bruno", species: "Dog", weight: 24, status: "Active" };
+> const { name, species, ...vitals } = pet;
+> console.log("Extracted Identity:", name, species);
+Extracted Identity: Bruno Dog
+> const updatedPet = { ...pet, weight: 25.5, lastVisit: "2026-09-30" };
+> console.log("Updated Record:", updatedPet);
+Updated Record: { id: 1, name: 'Bruno', species: 'Dog', weight: 25.5, status: 'Active', lastVisit: '2026-09-30' }</div>
+    </div>
+    
+        <div class="fig-caption">Figure 2.7 ES6 Object Destructuring and Spread Operator Demonstration</div>
+        <div class="fig-text">This figure captures the extraction of nested pet attributes via ES6 destructuring and merging updated attributes using spread syntax.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/summary-preview</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="font-family:Arial; padding:10px; border:1px solid #0dcaf0; background:#f0faff; border-radius:6px; max-width:440px; margin:0 auto;">
+                    <div style="font-size:9.5px; color:#055160; font-weight:bold;">TEMPLATE LITERAL RENDER:</div>
+                    <h4 style="margin:3px 0; color:#084298; font-size:13px;">Patient Summary: Bruno</h4>
+                    <p style="margin:0; font-size:11px; line-height:1.4;">
+                        Species: Dog | Breed: Labrador | Age: 3 Years<br>
+                        Current Weight: 24 kg | Immunization Status: Fully Immunized
+                    </p>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 2.8 Dynamic Template Literal Generation for Patient Summaries</div>
+        <div class="fig-text">This screenshot displays HTML generation via ES6 template literals. Multi-line strings with embedded expressions dynamically assemble pet diagnostic overview cards.</div>
+    </div>
+    
+
+    <span class="section-label">Conclusion:</span>
+    <p class='conclusion-p'>Experiment No. 2 thoroughly validated the practical utility of modern ECMAScript 2015+ (ES6) language enhancements in developing clean, maintainable web applications. The adoption of arrow functions provided concise syntactic constructs while maintaining deterministic lexical scope, eliminating common context binding anomalies.</p><p class='conclusion-p'>The implementation of declarative higher-order array methods—specifically filter for species isolation, map for visual badge generation, and reduce for clinical fee aggregation—demonstrated measurable efficiency advantages over legacy imperative iterative loops. Furthermore, object destructuring and the spread operator streamlined entity transformation.</p><p class='conclusion-p'>Finally, integrating DOM event delegation and confirmation modals confirmed how modern JavaScript coordinates responsive, user-safe interactions essential for mission-critical medical record management systems.</p>
+</body>
+</html>

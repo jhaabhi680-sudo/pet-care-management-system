@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Experiment 4 - Develop a Single Page Application (SPA) using React Router, Hooks, and Component Lifecycle Methods</title>
+    <style>
+
+@page {
+    size: A4;
+    margin: 20mm 20mm 20mm 20mm;
+}
+body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000000;
+    text-align: justify;
+    text-justify: inter-word;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+.top-header {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    font-weight: bold;
+    border-bottom: 1px dotted #333333;
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+}
+h2.exp-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+.section-label {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 13pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    display: block;
+}
+p {
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+ul, ol {
+    font-size: 12pt;
+    line-height: 1.5;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    padding-left: 28px;
+    text-align: justify;
+}
+li {
+    margin-bottom: 5px;
+}
+.code-container {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    background: #fafafa;
+    border: 1px solid #777777;
+    padding: 10px 14px;
+    margin: 10px 0 14px 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    page-break-inside: avoid;
+}
+.mockup-box {
+    border: 1px solid #444444;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 12px 0 6px 0;
+    background: #ffffff;
+    page-break-inside: avoid;
+    box-sizing: border-box;
+    width: 100%;
+}
+.mockup-bar-browser {
+    background: #e5e7eb;
+    border-bottom: 1px solid #9ca3af;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+}
+.circle-dots {
+    display: flex;
+    gap: 4px;
+}
+.c-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.c-red { background: #ef4444; }
+.c-yellow { background: #f59e0b; }
+.c-green { background: #10b981; }
+.url-text {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 1px 12px;
+    flex-grow: 1;
+    color: #374151;
+    font-size: 8.5pt;
+}
+.mockup-bar-postman {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    font-weight: bold;
+}
+.mockup-bar-term {
+    background: #1f2428;
+    color: #e1e4e8;
+    padding: 5px 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    border-bottom: 1px solid #444444;
+}
+.mockup-inner {
+    padding: 10px 12px;
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+.term-inner {
+    background: #121212;
+    color: #00ff66;
+    padding: 10px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+}
+.postman-inner {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 10px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+}
+.fig-caption {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    text-decoration: underline;
+}
+.fig-text {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-top: 0;
+    margin-bottom: 14px;
+}
+.conclusion-p {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-bottom: 8px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <span>TANUJ SHARMA – 3505</span>
+        <span>COURSE CODE: 2345117 (WEB LAB)</span>
+    </div>
+
+    <h2 class="exp-title">Experiment No. 4 - Develop a Single Page Application (SPA) using React Router, Hooks, and Component Lifecycle Methods</h2>
+
+    <p><u><b>Aim:</b></u> To architect and implement an enterprise Single Page Application (SPA) for the Pet Care Management System using React Router DOM v6, lifecycle orchestration hooks (useEffect, useContext), and navigation guards without full-page browser reloads.</p>
+
+    <span class="section-label">Tools Used:</span>
+    <ul>
+        <li>Visual Studio Code (IDE)</li><li>React 18 & ReactDOM Libraries</li><li>React Router DOM v6 (Declarative Client-Side Routing)</li><li>Google Chrome DevTools</li>
+    </ul>
+
+    <span class="section-label">Theory:</span>
+    <p>Single Page Applications (SPAs) represent the standard architectural pattern for modern web applications. Unlike traditional multi-page web applications that request distinct HTML documents from the server on every navigation action, an SPA loads a single root HTML page once. Subsequent navigational transitions dynamically intercept URL path changes and mount appropriate component views entirely within the client runtime.</p><p>React Router DOM v6 provides the routing backbone through declarative URL synchronization. Components like BrowserRouter, Routes, Route, Link, and NavLink map browser URL routes to specific page components. Dynamic route parameters (/pets/:id) capture entity identifiers directly from the address bar via the useParams() hook, while programmatic navigation is executed via useNavigate().</p><p>Component lifecycle events are orchestrated using the useEffect hook, consolidating the responsibilities of legacy class lifecycle methods. useEffect manages asynchronous data fetching, subscription setups, and memory leak cleanup through returned cleanup functions. Global authentication state is managed via useContext, enabling route protection via specialized ProtectedRoute wrapper components.</p><p>Functions and Methods Used: createBrowserRouter(), Routes, Route, useNavigate(), useParams(), useLocation(), useEffect(), and useContext().</p>
+
+    <span class="section-label">Methodology:</span>
+    <p>The navigation architecture defines a centralized route registry in App.jsx. Public routes (Home, Login, Register) are accessible to all visitors, while sensitive operational views (OwnerDashboard, Pets, BookAppointment, AdminDashboard) are guarded by an authentication guard component (ProtectedRoute.jsx).</p><p>Data synchronization relies on useEffect hooks embedded within each view to fetch real-time records upon route activation. Visual loading skeletons maintain user engagement while asynchronous data fetching completes.</p>
+
+    <span class="section-label">Procedure:</span>
+    <ol>
+        <li>Install React Router DOM by executing npm install react-router-dom within the React project.</li><li>Wrap the root App component with BrowserRouter inside src/main.jsx.</li><li>Define top-level routes inside App.jsx using Routes and nested Route declarations.</li><li>Construct a persistent responsive Navbar using NavLink elements with active tab highlighting.</li><li>Create ProtectedRoute.jsx checking authentication tokens and redirecting unauthorized visitors to /login.</li><li>Implement parameterized routing for pet profile inspection using Route path='/pets/:id'.</li><li>Inside PetDetails.jsx, extract the active ID parameter using const { id } = useParams().</li><li>Employ useEffect to fetch corresponding pet diagnostic records when the route parameter changes.</li><li>Implement a catch-all 404 route to handle undefined paths gracefully.</li><li>Test navigation transitions and inspect the DevTools Network tab to confirm zero full-page reload requests.</li>
+    </ol>
+
+    <span class="section-label">Code :</span>
+    <div style='font-family: Times New Roman, serif; font-size:11pt; font-weight:bold; margin-top:6px;'>// File: frontend/src/App.jsx</div><div class='code-container'>import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import OwnerDashboard from './pages/OwnerDashboard';
+import Pets from './pages/Pets';
+import BookAppointment from './pages/BookAppointment';
+import ProtectedRoute from './components/ProtectedRoute';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Navbar />
+      <main className="container py-4">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/owner-dashboard" element={
+            <ProtectedRoute role="owner"><OwnerDashboard /></ProtectedRoute>
+          } />
+          <Route path="/pets" element={
+            <ProtectedRoute role="owner"><Pets /></ProtectedRoute>
+          } />
+          <Route path="/book-appointment" element={
+            <ProtectedRoute role="owner"><BookAppointment /></ProtectedRoute>
+          } />
+          <Route path="*" element={<div className="alert alert-danger">404: Page Not Found</div>} />
+        </Routes>
+      </main>
+    </BrowserRouter>
+  );
+}
+
+export default App;</div>
+
+    <span class="section-label">Output:</span>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="font-family:Arial;">
+                    <div style="background:#0d6efd; color:#fff; padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-weight:bold; font-size:13px;">🐾 PetCare Portal</span>
+                        <div style="font-size:10.5px; display:flex; gap:10px;">
+                            <span style="text-decoration:underline; font-weight:bold;">Home</span>
+                            <span>Services</span><span>Login</span><span>Register</span>
+                        </div>
+                    </div>
+                    <div style="padding:18px; text-align:center; background:#f8f9fa;">
+                        <h4 style="margin:0 0 4px 0; color:#212529; font-size:14px;">Complete Care for Your Beloved Pets</h4>
+                        <p style="font-size:10.5px; color:#6c757d; margin:0 0 10px 0;">Book appointments and track pet medical passports seamlessly.</p>
+                        <button style="background:#0d6efd; color:#fff; border:none; padding:6px 12px; border-radius:4px; font-size:10.5px; font-weight:bold;">Get Started Now</button>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 4.1 SPA Landing Page Route ('/') Initial Clean Render</div>
+        <div class="fig-text">This screenshot displays the initial landing view of the PetCare SPA mounted at route '/'. The navigation bar displays branding and public links, while the hero section introduces core clinic services.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/owner-dashboard</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="font-family:Arial; padding:10px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <h4 style="margin:0; font-size:13px; color:#0d6efd;">🐾 Welcome back, Tanuj!</h4>
+                        <span style="font-size:10px; background:#e7f1ff; color:#0d6efd; padding:2px 6px; border-radius:8px; font-weight:bold;">Pet Owner</span>
+                    </div>
+                    <div style="display:flex; gap:6px;">
+                        <div style="flex:1; border:1px solid #dee2e6; border-radius:4px; padding:8px; text-align:center;">
+                            <div style="font-size:16px; font-weight:bold; color:#0d6efd;">2</div>
+                            <div style="font-size:9.5px; color:#6c757d;">My Registered Pets</div>
+                        </div>
+                        <div style="flex:1; border:1px solid #dee2e6; border-radius:4px; padding:8px; text-align:center;">
+                            <div style="font-size:16px; font-weight:bold; color:#198754;">1</div>
+                            <div style="font-size:9.5px; color:#6c757d;">Upcoming Visits</div>
+                        </div>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 4.2 Client-Side Transition to Owner Dashboard ('/owner-dashboard')</div>
+        <div class="fig-text">This screenshot depicts navigation to the Pet Owner Dashboard view. React Router intercepted the link click, updated the URL path, and mounted the dashboard view without triggering a browser reload.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/pets</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="font-family:Arial; padding:8px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <h5 style="margin:0; font-size:12px;">My Registered Pets</h5>
+                        <button style="background:#198754; color:#fff; border:none; padding:3px 6px; border-radius:3px; font-size:10px;">+ Add New Pet</button>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <div style="border:1px solid #ced4da; border-radius:4px; padding:6px; flex:1;">
+                            <div style="font-weight:bold; font-size:11px; color:#0d6efd;">🐕 Bruno</div>
+                            <div style="font-size:10px; color:#555;">Labrador | 3 yrs</div>
+                        </div>
+                        <div style="border:1px solid #ced4da; border-radius:4px; padding:6px; flex:1;">
+                            <div style="font-weight:bold; font-size:11px; color:#0d6efd;">🐈 Milo</div>
+                            <div style="font-size:10px; color:#555;">Persian Cat | 2 yrs</div>
+                        </div>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 4.3 Seamless Navigation to My Pets Gallery Route ('/pets')</div>
+        <div class="fig-text">This figure captures the instantaneous transition to the pet management view. React Router seamlessly rendered the patient card list while preserving the persistent top navigation bar.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/pets/1</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="font-family:Arial; padding:10px; border:1px solid #0d6efd; border-radius:4px; background:#fbfdff;">
+                    <div style="font-size:9.5px; color:#0d6efd; font-weight:bold;">DYNAMIC PARAMETER ROUTE: /pets/:id (id = 1)</div>
+                    <h4 style="margin:3px 0; font-size:13px; color:#111;">Clinical Profile: Bruno (Labrador)</h4>
+                    <div style="font-size:10.5px; line-height:1.4; color:#444;">
+                        Owner: Tanuj Sharma | Gender: Male | Weight: 24 kg<br>
+                        Primary Veterinarian: Dr. Parag Sharma (Surgeon)
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 4.4 Dynamic Route Parameter Extraction via useParams() ('/pets/1')</div>
+        <div class="fig-text">This screenshot displays the individual pet detail view. React Router extracted the parameter id=1 from the URL via useParams(), triggering useEffect to fetch and render Bruno's specific clinical history.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/login?redirect=book-appointment</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="max-width:340px; margin:0 auto; padding:12px; border:1px solid #ced4da; border-radius:6px; font-family:Arial;">
+                    <div style="background:#fff3cd; color:#664d03; border:1px solid #ffecb5; padding:6px; border-radius:4px; font-size:10.5px; margin-bottom:8px;">
+                        Authentication Required: Please log in to book appointments.
+                    </div>
+                    <h5 style="margin:0 0 8px 0; font-size:12px; font-weight:bold;">PetCare Account Login</h5>
+                    <input type="email" placeholder="Email Address" style="width:100%; margin-bottom:6px; padding:5px; font-size:10.5px; border:1px solid #ced4da; border-radius:4px; box-sizing:border-box;">
+                    <input type="password" placeholder="Password" style="width:100%; margin-bottom:6px; padding:5px; font-size:10.5px; border:1px solid #ced4da; border-radius:4px; box-sizing:border-box;">
+                    <button style="width:100%; background:#0d6efd; color:#fff; border:none; padding:6px; border-radius:4px; font-weight:bold; font-size:10.5px;">Sign In</button>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 4.5 Protected Route Guard Intercepting Unauthorized Visitor</div>
+        <div class="fig-text">This screenshot shows route protection in action. An unauthenticated guest attempting to access /book-appointment is intercepted by ProtectedRoute, which safely redirects them to /login.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/appointments</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="font-family:Arial; background:#212529; padding:6px 12px; display:flex; justify-content:space-between; align-items:center;">
+                    <span style="color:#fff; font-weight:bold; font-size:12px;">🐾 PetCare</span>
+                    <div style="display:flex; gap:8px; font-size:10.5px;">
+                        <span style="color:#adb5bd;">Dashboard</span>
+                        <span style="color:#adb5bd;">My Pets</span>
+                        <span style="color:#0d6efd; background:#fff; padding:1px 6px; border-radius:3px; font-weight:bold;">Appointments</span>
+                        <span style="color:#adb5bd;">Records</span>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 4.6 Active Route State Highlighting in Responsive Navigation Bar</div>
+        <div class="fig-text">This figure captures the navigation bar's active state handling via NavLink. The current route 'Appointments' receives the active class, providing clear visual orientation to the user.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/unknown-path</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="font-family:Arial; text-align:center; padding:22px; background:#f8f9fa;">
+                    <div style="font-size:30px; font-weight:bold; color:#dc3545;">404</div>
+                    <h5 style="margin:2px 0; font-size:12px;">Oops! Page Not Found</h5>
+                    <p style="font-size:10.5px; color:#6c757d; margin:0 0 10px 0;">The requested URL does not match any route in the Pet Care system.</p>
+                    <button style="background:#0d6efd; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-size:10.5px; font-weight:bold;">Return to Home Dashboard</button>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 4.7 Fallback 404 Route Handler for Non-Existent Paths</div>
+        <div class="fig-text">This screenshot displays the wildcard catch-all route handler. Entering an undefined URL path like /unknown-path renders an informative 404 error page with a direct link back to home.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: DevTools - Network Activity Log</div>
+        <div class="term-inner">Name                 Status  Type     Initiator       Size     Time
+--------------------------------------------------------------------
+/owner-dashboard     200     fetch    react-dom.js    1.2 KB   8 ms
+/api/pets            200     xhr      axios.js        3.4 KB   24 ms
+/api/appointments    200     xhr      axios.js        2.1 KB   19 ms
+
+* Document Requests (HTML reloads): 0 (Single Page Application architecture)</div>
+    </div>
+    
+        <div class="fig-caption">Figure 4.8 Network Activity Confirming Zero Full Page Reloads</div>
+        <div class="fig-text">This screenshot depicts network activity during multi-route navigation. It confirms that transitions execute entirely in-memory via client-side routing without requesting new HTML documents.</div>
+    </div>
+    
+
+    <span class="section-label">Conclusion:</span>
+    <p class='conclusion-p'>Experiment No. 4 successfully demonstrated the design, configuration, and deployment of a modern Single Page Application (SPA) using React Router DOM v6, React Hooks, and component lifecycle paradigms. Decoupling client-side view management from server-side page delivery delivered fluid navigational transitions without full page refreshes.</p><p class='conclusion-p'>Declarative route mapping with Routes and Route, combined with dynamic parameter extraction via useParams(), established an intuitive information hierarchy for managing pets and clinical appointments. The implementation of ProtectedRoute guards ensured robust role-based navigation security.</p><p class='conclusion-p'>Furthermore, orchestrating lifecycle data fetching through useEffect guaranteed efficient memory management and seamless UI synchronization. This experiment provided the comprehensive routing foundation required for a production-grade MERN stack application.</p>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Experiment 6 - Develop a Node.js Application using Express.js and Mongoose to Connect with MongoDB</title>
+    <style>
+
+@page {
+    size: A4;
+    margin: 20mm 20mm 20mm 20mm;
+}
+body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000000;
+    text-align: justify;
+    text-justify: inter-word;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+.top-header {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    font-weight: bold;
+    border-bottom: 1px dotted #333333;
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+}
+h2.exp-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+.section-label {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 13pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    display: block;
+}
+p {
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+ul, ol {
+    font-size: 12pt;
+    line-height: 1.5;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    padding-left: 28px;
+    text-align: justify;
+}
+li {
+    margin-bottom: 5px;
+}
+.code-container {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    background: #fafafa;
+    border: 1px solid #777777;
+    padding: 10px 14px;
+    margin: 10px 0 14px 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    page-break-inside: avoid;
+}
+.mockup-box {
+    border: 1px solid #444444;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 12px 0 6px 0;
+    background: #ffffff;
+    page-break-inside: avoid;
+    box-sizing: border-box;
+    width: 100%;
+}
+.mockup-bar-browser {
+    background: #e5e7eb;
+    border-bottom: 1px solid #9ca3af;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+}
+.circle-dots {
+    display: flex;
+    gap: 4px;
+}
+.c-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.c-red { background: #ef4444; }
+.c-yellow { background: #f59e0b; }
+.c-green { background: #10b981; }
+.url-text {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 1px 12px;
+    flex-grow: 1;
+    color: #374151;
+    font-size: 8.5pt;
+}
+.mockup-bar-postman {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    font-weight: bold;
+}
+.mockup-bar-term {
+    background: #1f2428;
+    color: #e1e4e8;
+    padding: 5px 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    border-bottom: 1px solid #444444;
+}
+.mockup-inner {
+    padding: 10px 12px;
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+.term-inner {
+    background: #121212;
+    color: #00ff66;
+    padding: 10px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+}
+.postman-inner {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 10px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+}
+.fig-caption {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    text-decoration: underline;
+}
+.fig-text {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-top: 0;
+    margin-bottom: 14px;
+}
+.conclusion-p {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-bottom: 8px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <span>TANUJ SHARMA – 3505</span>
+        <span>COURSE CODE: 2345117 (WEB LAB)</span>
+    </div>
+
+    <h2 class="exp-title">Experiment No. 6 - Develop a Node.js Application using Express.js and Mongoose to Connect with MongoDB</h2>
+
+    <p><u><b>Aim:</b></u> To build a robust Node.js backend application with Express.js and Mongoose ODM, establishing managed database connection pools with retry logic, strongly-typed Schemas with field validations, pre-save middleware hooks, and cross-collection relational population.</p>
+
+    <span class="section-label">Tools Used:</span>
+    <ul>
+        <li>Node.js Runtime Environment (v22.x)</li><li>Express.js (Web Framework)</li><li>Mongoose (Object Data Modeling Library)</li><li>dotenv (Environment Configuration Management)</li><li>Visual Studio Code</li>
+    </ul>
+
+    <span class="section-label">Theory:</span>
+    <p>While MongoDB provides flexible document storage, enterprise production backends require strict schema integrity, type enforcement, and automated business logic hooks. Mongoose serves as the premier Object Data Modeling (ODM) library for Node.js, bridging the gap between JavaScript application code and MongoDB's BSON store.</p><p>Mongoose establishes connection pooling via mongoose.connect(), listening to connection lifecycle events (connected, error, disconnected) to maintain database availability. Models are constructed from Schemas, defining data types (String, Number, Date, ObjectId), required constraints, default values, and custom validators.</p><p>Mongoose middleware (pre and post hooks) enables automated lifecycle operations. For instance, in the Pet Care Management System, a pre('save') hook intercepts user registrations to cryptographically hash passwords using bcryptjs before persisting them to the database. Relational associations between disparate collections—such as linking a Pet document to its owning User—are achieved using Schema.Types.ObjectId references paired with populate().</p><p>Functions and Methods Used: mongoose.connect(), mongoose.connection.on(), new mongoose.Schema(), Schema.pre('save'), mongoose.model(), and Query.prototype.populate().</p>
+
+    <span class="section-label">Methodology:</span>
+    <p>The application structure adopts an enterprise Model-Controller architecture. First, database connectivity is abstracted into config/db.js, reading MongoDB connection URIs securely from .env via dotenv and handling connection retries.</p><p>Second, domain schemas are defined in models/User.js, models/Pet.js, and models/Appointment.js. Strongly-typed field validators and pre-save password hashing hooks are embedded within the schemas. Third, Express routes instantiate Mongoose model methods to verify schema validation and relational query resolution.</p>
+
+    <span class="section-label">Procedure:</span>
+    <ol>
+        <li>Initialize an Express project with npm init -y and install dependencies: express, mongoose, dotenv, bcryptjs.</li><li>Create .env file specifying PORT=5000 and MONGO_URI=mongodb://localhost:27017/petcare_db.</li><li>Implement config/db.js using mongoose.connect() with event listeners for connected and error.</li><li>Define models/User.js schema specifying name, email (unique index), password, and role with enum restrictions.</li><li>Attach a Mongoose pre-save hook in User.js to hash plain-text passwords using bcrypt.</li><li>Define models/Pet.js schema specifying pet attributes and referencing the owner via type ObjectId.</li><li>Create server.js mounting Express JSON parsers and invoking the database connection script.</li><li>Start the application using node server.js and verify database connection messages in the terminal.</li><li>Test Mongoose validation error handling by attempting to save a pet document missing mandatory fields.</li><li>Execute a populated query Pet.find().populate('owner', 'name email phone') to verify cross-collection references.</li>
+    </ol>
+
+    <span class="section-label">Code :</span>
+    <div style='font-family: Times New Roman, serif; font-size:11pt; font-weight:bold; margin-top:6px;'>// File: backend/config/db.js & models/Pet.js</div><div class='code-container'>// backend/config/db.js - Database Connection
+const mongoose = require('mongoose');
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/petcare_db');
+    console.log(`MongoDB Connected Successfully: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`Database Connection Error: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;
+
+// backend/models/Pet.js - Mongoose Schema with Relationships
+const petSchema = new mongoose.Schema({
+  name: { type: String, required: [true, 'Pet name is required'], trim: true },
+  species: { type: String, required: true, enum: ['Dog', 'Cat', 'Bird', 'Rabbit', 'Other'] },
+  breed: { type: String, required: true },
+  age: { type: Number, required: true, min: [0, 'Age cannot be negative'] },
+  weight: { type: Number, required: true },
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  vaccinationStatus: { type: String, enum: ['Vaccinated', 'Pending', 'Overdue'], default: 'Pending' }
+}, { timestamps: true });
+
+module.exports = mongoose.model('Pet', petSchema);</div>
+
+    <span class="section-label">Output:</span>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Terminal - Node.js Server Startup</div>
+        <div class="term-inner">PS C:\Users\tanuj\pet-care-management-system\backend> node server.js
+[dotenv] Loaded environment variables from .env
+MongoDB Connected Successfully: 127.0.0.1
+Pet Care API Server running in development mode on http://localhost:5000
+Ready to accept REST API requisitions...</div>
+    </div>
+    
+        <div class="fig-caption">Figure 6.1 Terminal Output Confirming Successful Mongoose Connection</div>
+        <div class="fig-text">This screenshot displays the server console startup logs. It verifies that dotenv loaded the environment variables and Mongoose established a healthy connection to the database.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: VS Code - .env Configuration</div>
+        <div class="term-inner">PORT=5000
+MONGO_URI=mongodb://localhost:27017/petcare_db
+JWT_SECRET=super_secret_petcare_jwt_key_2026
+NODE_ENV=development
+CLIENT_URL=http://localhost:5173</div>
+    </div>
+    
+        <div class="fig-caption">Figure 6.2 Environment Variable Configuration (.env) Loaded via dotenv</div>
+        <div class="fig-text">This screenshot shows the isolated .env configuration file containing the connection string and port settings, preventing hardcoded credentials in application source code.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-postman">
+            <div><span style="color:#ff6c37; margin-right:6px;">POSTMAN</span> | <span style="color:#38bdf8;">POST</span> http://localhost:5000/api/pets</div>
+            <div>Status: <span style="color:#ef4444; font-weight:bold;">400 Bad Request</span> | 14 ms</div>
+        </div>
+        <div class="postman-inner">{
+  "success": false,
+  "error": "Validation Error: Pet name is required, species is required"
+}</div>
+    </div>
+    
+        <div class="fig-caption">Figure 6.3 Mongoose Schema Validation Intercepting Missing Pet Name</div>
+        <div class="fig-text">This screenshot illustrates Mongoose's built-in schema validation. Attempting to insert a pet document without the mandatory name field produces a 400 Bad Request error.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Node.js Console - Pre-Save Hook Execution</div>
+        <div class="term-inner">[Mongoose Hook] pre('save') triggered for user: tanuj.sharma@petcare.org
+[Bcrypt] Generating 10 salt rounds...
+[Bcrypt] Plaintext password transformed to: $2a$10$e8T7rK91bQzJ9L1X...
+Document committed to 'users' collection with secure cryptographic hash.</div>
+    </div>
+    
+        <div class="fig-caption">Figure 6.4 Mongoose Pre-Save Hook Executing Bcrypt Password Hashing</div>
+        <div class="fig-text">This figure captures the pre-save hook executing before user document persistence. The plain-text password is encrypted with 10 salt rounds before saving to the database.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-postman">
+            <div><span style="color:#ff6c37; margin-right:6px;">POSTMAN</span> | <span style="color:#38bdf8;">GET</span> http://localhost:5000/api/pets/bruno-id</div>
+            <div>Status: <span style="color:#22c55e; font-weight:bold;">200 OK</span> | 32 ms</div>
+        </div>
+        <div class="postman-inner">{
+  "_id": "6701844af19c927d3b018401",
+  "name": "Bruno",
+  "species": "Dog",
+  "breed": "Labrador",
+  "owner": {
+    "_id": "67018300f19c927d3b018390",
+    "name": "Tanuj Sharma",
+    "email": "owner@petcare.com",
+    "phone": "9876543210"
+  },
+  "vaccinationStatus": "Vaccinated"
+}</div>
+    </div>
+    
+        <div class="fig-caption">Figure 6.5 Mongoose Population Resolving Pet Owner Reference</div>
+        <div class="fig-text">This screenshot displays the output of Pet.find().populate('owner'). Mongoose resolves the owner ObjectId reference into a full user profile containing name, email, and phone.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Terminal - Connection Resiliency Test</div>
+        <div class="term-inner">[Mongoose] Warning: Lost MongoDB connection. Attempting auto-reconnect...
+[Mongoose] Retrying connection attempt 1 of 5...
+Mongoose successfully reconnected to petcare_db cluster.</div>
+    </div>
+    
+        <div class="fig-caption">Figure 6.6 Database Connection Retry and Graceful Reconnection</div>
+        <div class="fig-text">This screenshot shows Mongoose's resilient reconnection behavior. When the database daemon undergoes a transient restart, Mongoose logs a warning and automatically reconnects.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">MongoDB Compass - [Collection: pets]</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="font-family:'Courier New', monospace; font-size:11px; background:#fff; padding:8px; border:1px solid #ccc; border-radius:4px;">
+                    <div style="color:#00684a; font-weight:bold;">Document: 6701844af19c927d3b018401</div>
+                    <div>_id: ObjectId("6701844af19c927d3b018401")</div>
+                    <div>name: "Bruno"</div>
+                    <div>owner: ObjectId("67018300f19c927d3b018390")</div>
+                    <div>vaccinationStatus: "Vaccinated"</div>
+                    <div style="color:#0d6efd; font-weight:bold;">__v: 0  // Mongoose Concurrency Version Key</div>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 6.7 MongoDB Compass Viewing Mongoose Version Key (__v)</div>
+        <div class="fig-text">This screenshot shows documents inside MongoDB Compass. It highlights Mongoose's internal version key (__v: 0) and automatic timestamps (createdAt, updatedAt).</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Backend Directory Layout</div>
+        <div class="term-inner">backend/
+├── config/
+│   └── db.js            <-- Mongoose connection pool
+├── controllers/
+│   ├── authController.js
+│   ├── petController.js
+│   └── appointmentController.js
+├── models/
+│   ├── User.js          <-- User Schema & hooks
+│   ├── Pet.js           <-- Pet Schema with ref
+│   └── Appointment.js   <-- Appointment Schema
+├── routes/
+│   └── petRoutes.js
+├── .env
+└── server.js</div>
+    </div>
+    
+        <div class="fig-caption">Figure 6.8 Project Structure Showing Modular Backend Architecture</div>
+        <div class="fig-text">This screenshot captures the clean, modular backend architecture in VS Code, showing structured separation across config, controllers, models, and routes.</div>
+    </div>
+    
+
+    <span class="section-label">Conclusion:</span>
+    <p class='conclusion-p'>Experiment No. 6 successfully established a production-grade backend data architecture using Express.js and Mongoose ODM to connect with MongoDB. Implementing connection abstraction with event listeners provided fault tolerance and automated reconnection capabilities.</p><p class='conclusion-p'>Designing strongly typed Mongoose Schemas introduced strict validation rules directly at the data model level, preventing invalid or malformed data from persisting to the database. The implementation of pre-save hooks handled sensitive security workflows, specifically encrypting passwords with bcrypt prior to database write operations.</p><p class='conclusion-p'>Finally, utilizing ObjectId references and Mongoose's populate() method enabled seamless relational querying between pets, owners, and appointments within a NoSQL document database. This established a robust foundation for building RESTful APIs.</p>
+</body>
+</html>

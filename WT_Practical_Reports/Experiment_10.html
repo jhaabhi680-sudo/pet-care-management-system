@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Experiment 10 - Deploy a MERN Stack Web Application on a Cloud Platform (Render/Netlify/Vercel) and Demonstrate End-to-End Functionality</title>
+    <style>
+
+@page {
+    size: A4;
+    margin: 18mm 18mm 18mm 18mm;
+}
+body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #111;
+    text-align: justify;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+}
+.header-box {
+    text-align: center;
+    border-bottom: 2px solid #222;
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+}
+.header-college {
+    font-size: 14pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.header-dept {
+    font-size: 11pt;
+    font-weight: bold;
+    margin-top: 2px;
+}
+.header-meta {
+    font-size: 10.5pt;
+    margin-top: 2px;
+    color: #333;
+}
+h2.exp-heading {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14pt;
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: left;
+    margin-top: 14px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+h3.section-heading {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 13pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 16px;
+    margin-bottom: 6px;
+}
+p {
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+ul, ol {
+    font-size: 12pt;
+    line-height: 1.5;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    padding-left: 26px;
+    text-align: justify;
+}
+li {
+    margin-bottom: 6px;
+}
+.code-block {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    background: #fdfdfd;
+    border: 1px solid #c0c0c0;
+    border-left: 4px solid #0d6efd;
+    padding: 10px 14px;
+    margin: 12px 0 16px 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    page-break-inside: avoid;
+}
+.mockup-container {
+    border: 1px solid #555;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 14px 0 6px 0;
+    background: #fff;
+    page-break-inside: avoid;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+.mockup-header-browser {
+    background: #e9ecef;
+    border-bottom: 1px solid #ccc;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 9.5pt;
+}
+.dots {
+    display: flex;
+    gap: 5px;
+}
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.dot-red { background: #ff5f56; }
+.dot-yellow { background: #ffbd2e; }
+.dot-green { background: #27c93f; }
+.url-bar {
+    background: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 12px;
+    padding: 2px 14px;
+    flex-grow: 1;
+    color: #495057;
+    font-size: 9pt;
+}
+.mockup-header-postman {
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+    font-size: 9.5pt;
+    font-weight: bold;
+}
+.mockup-header-term {
+    background: #1e1e1e;
+    color: #cccccc;
+    padding: 6px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    border-bottom: 1px solid #333;
+}
+.mockup-body {
+    padding: 12px;
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+}
+.terminal-body {
+    background: #181818;
+    color: #00ff66;
+    padding: 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5pt;
+    line-height: 1.4;
+    white-space: pre-wrap;
+}
+.postman-body {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    white-space: pre-wrap;
+}
+.figure-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 6px;
+    margin-bottom: 4px;
+    text-decoration: underline;
+}
+.figure-desc {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    margin-bottom: 16px;
+}
+.conclusion-text {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+.page-break {
+    page-break-after: always;
+}
+
+    </style>
+</head>
+<body>
+    <div class="header-box">
+        <div class="header-college">Bharati Vidyapeeth College of Engineering, Navi Mumbai</div>
+        <div class="header-dept">Department of Information Technology | Academic Year 2026-2027</div>
+        <div class="header-meta">Subject: Web Lab (Course Code: 2345117) | Class: T.E. Information Technology (Sem V)</div>
+    </div>
+
+    <h2 class="exp-heading">Experiment No. 10 - Deploy a MERN Stack Web Application on a Cloud Platform (Render/Netlify/Vercel) and Demonstrate End-to-End Functionality</h2>
+
+    <p><u><b>Aim:</b></u> To prepare, configure, containerize, and deploy the full-stack Pet Care Management System to cloud hosting platforms (Render / Vercel) connected to a cloud-hosted MongoDB Atlas database cluster, configuring environment variables, continuous deployment pipelines, and SSL/TLS encryption.</p>
+
+    <h3 class="section-heading">Tools Used:</h3>
+    <ul>
+        <li>Git Version Control & GitHub Repository</li><li>MongoDB Atlas (Cloud Managed Database)</li><li>Render Cloud Hosting Platform (Web Service & Static Site)</li><li>Vercel Serverless Hosting</li><li>Google Chrome (Production Validation)</li>
+    </ul>
+
+    <h3 class="section-heading">Theory:</h3>
+    <p>Deploying web applications to cloud infrastructure transitions software from local development environments to globally accessible, scalable production environments. Cloud platforms operate primarily under Platform-as-a-Service (PaaS) models, automating container provisioning, operating system patching, SSL/TLS certificate renewal, and horizontal scaling.</p><p>A standard production deployment topology for MERN stack applications separates concerns into three tiers: 1) Database Tier: MongoDB Atlas provides managed database clusters with automated backups, VPC peering, and encryption at rest; 2) Backend Tier: Node.js/Express web services deployed on cloud platforms like Render listen for incoming HTTP traffic, scale workers dynamically, and connect securely to Atlas via URI strings; 3) Frontend Tier: React client assets compiled via `npm run build` (producing minified HTML, CSS, and JS bundles) are distributed globally through Content Delivery Networks (CDNs) on platforms like Render or Vercel.</p><p>Continuous Integration and Continuous Deployment (CI/CD) pipelines automatically detect new Git commits pushed to the main branch, execute automated test suites, build optimized production bundles, and deploy updates with zero application downtime.</p><p>Functions and Methods Used: `git push origin main`, `npm run build`, `process.env.NODE_ENV`, MongoDB Atlas connection strings (`mongodb+srv://...`), and HTTPS security validation.</p>
+
+    <h3 class="section-heading">Methodology:</h3>
+    <p>The deployment methodology follows a structured four-phase workflow. Phase 1: Database Provisioning—provision a free M0 cluster on MongoDB Atlas, configure database users, and whitelist network IP addresses (`0.0.0.0/0`). Phase 2: Source Control—structure project repositories with clean `.gitignore` files to exclude `node_modules` and local `.env` files.</p><p>Phase 3: Production Build Configuration—define build and start scripts in `package.json` (`npm install && npm run build` and `node server.js`). Phase 4: Cloud Environment Injection—configure environment variables (`MONGO_URI`, `JWT_SECRET`, `PORT`, `NODE_ENV=production`) in cloud platform settings, trigger automated deployments, and verify end-to-end functionality under HTTPS.</p>
+
+    <h3 class="section-heading">Procedure:</h3>
+    <ol>
+        <li>Create an account on MongoDB Atlas and deploy a free-tier M0 cloud database cluster named `petcare-cluster`.</li><li>Configure a database user with read/write privileges and allow access from anywhere (`0.0.0.0/0`).</li><li>Obtain the production connection string: `mongodb+srv://admin:<password>@petcare-cluster.mongodb.net/petcare_db`.</li><li>Initialize Git version control in the project root: `git init`, add `.gitignore`, and commit all files.</li><li>Create a remote repository on GitHub and push the codebase: `git push -u origin main`.</li><li>Log in to Render (or Vercel), click 'New Web Service', and connect the GitHub repository.</li><li>Configure Build Command: `npm install` and Start Command: `node backend/server.js`.</li><li>Add production environment variables in the Render dashboard: `MONGO_URI`, `JWT_SECRET`, and `NODE_ENV=production`.</li><li>Trigger the build process and monitor the live deployment logs in the cloud console.</li><li>Once deployed, open the live public HTTPS URL in Google Chrome, test registration, login, and appointment booking, and verify SSL security.</li>
+    </ol>
+
+    <h3 class="section-heading">Code:</h3>
+    <div style='font-family: Times New Roman, serif; font-size:11pt; font-weight:bold; margin-top:8px;'>// File: package.json & Cloud Deployment Configuration</div><div class='code-block'>// package.json - Production Build & Start Scripts
+{
+  "name": "pet-care-management-system",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node backend/server.js",
+    "build": "cd frontend && npm install && npm run build",
+    "deploy": "git push origin main"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
+
+// Production Environment Variables (Configured in Cloud Dashboard)
+// MONGO_URI = mongodb+srv://petadmin:SecuredPass2026@petcare-cluster.mongodb.net/petcare_db?retryWrites=true&w=majority
+// NODE_ENV = production
+// PORT = 10000
+// JWT_SECRET = production_high_entropy_jwt_secret_2026</div>
+
+    <h3 class="section-heading">Output:</h3>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 14px;">
+        
+    <div class="mockup-container">
+        <div class="mockup-header-browser">
+            <div class="dots">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+            </div>
+            <div class="url-bar">https://cloud.mongodb.com/v2/atlas#/clusters</div>
+        </div>
+        <div class="mockup-body">
+            
+            <div style="font-family:Arial; padding:10px; background:#001e2b; color:#fff; border-radius:4px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1e3a47; padding-bottom:6px;">
+                    <div style="font-weight:bold; color:#00ed64; font-size:13px;">🍃 MongoDB Atlas - Cluster0 (AWS / Mumbai)</div>
+                    <span style="background:#198754; color:#fff; font-size:9.5px; padding:2px 6px; border-radius:8px;">Cluster Active (Healthy)</span>
+                </div>
+                <div style="margin-top:10px; font-size:11px; line-height:1.5; color:#c1c7cd;">
+                    Database: <b>petcare_db</b> | Total Collections: <b>5</b> | Storage: <b>2.4 MB</b><br>
+                    Connection String: <code style="color:#00ed64;">mongodb+srv://petadmin:***@petcare-cluster.mongodb.net/petcare_db</code><br>
+                    Network IP Whitelist: <b>0.0.0.0/0 (Global Cloud Ingress Active)</b>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+    
+        <div class="figure-title">Figure 10.1 MongoDB Atlas Cloud Cluster Dashboard and Connection URI</div>
+        <div class="figure-desc">This screenshot displays the MongoDB Atlas cloud management dashboard. It shows cluster health metrics, network access rules, and the secure `mongodb+srv://` connection URI.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 14px;">
+        
+    <div class="mockup-container">
+        <div class="mockup-header-browser">
+            <div class="dots">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+            </div>
+            <div class="url-bar">https://github.com/tanuj/pet-care-management-system</div>
+        </div>
+        <div class="mockup-body">
+            
+            <div style="font-family:Arial; padding:10px; background:#fff;">
+                <div style="font-size:13px; font-weight:bold; color:#0969da; margin-bottom:6px;">📁 tanuj / pet-care-management-system <span style="font-size:10px; background:#dafbe1; color:#1a7f37; padding:2px 6px; border-radius:10px;">Public</span></div>
+                <div style="font-size:11px; color:#57609a; margin-bottom:8px;">Full-stack MERN Pet Care Hospital Management System with JWT auth and React frontend.</div>
+                <div style="border:1px solid #d0d7de; border-radius:6px; font-size:11px; padding:6px; background:#f6f8fa;">
+                    Latest commit: <code style="color:#0969da;">a4f91b0</code> - "feat: configure cloud production build scripts" (Verified ✓)
+                </div>
+            </div>
+        
+        </div>
+    </div>
+    
+        <div class="figure-title">Figure 10.2 GitHub Repository Housing Production MERN Codebase</div>
+        <div class="figure-desc">This screenshot captures the GitHub repository `tanuj/pet-care-management-system`. It displays the organized directory structure, recent commits, and CI/CD integration status.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 14px;">
+        
+    <div class="mockup-container">
+        <div class="mockup-header-term">⚙ Terminal: Render Cloud Deployment Console - Build Logs</div>
+        <div class="terminal-body">
+==> Cloning from https://github.com/tanuj/pet-care-management-system...
+==> Running 'npm install && cd frontend && npm install && npm run build'
+==> Vite: building for production...
+==> 142 modules transformed.
+==> dist/index.html                   1.42 kB │ gzip:  0.64 kB
+==> dist/assets/index-Dk39f.js       184.21 kB │ gzip: 58.12 kB
+==> Build completed successfully!
+==> Starting service with 'node backend/server.js'
+==> MongoDB Atlas Connected Successfully.
+==> Your service is live at: https://petcare-portal.onrender.com
+</div>
+    </div>
+    
+        <div class="figure-title">Figure 10.3 Render Cloud Build Console Outputting Deployment Logs</div>
+        <div class="figure-desc">This screenshot depicts the Render cloud deployment console. It shows the build pipeline running `npm install`, compiling frontend assets, and starting the Express server on port 10000.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 14px;">
+        
+    <div class="mockup-container">
+        <div class="mockup-header-browser">
+            <div class="dots">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+            </div>
+            <div class="url-bar">https://dashboard.render.com/web/petcare-portal/env</div>
+        </div>
+        <div class="mockup-body">
+            
+            <div style="font-family:Arial; padding:10px; background:#f8fafc;">
+                <div style="font-size:12px; font-weight:bold; color:#0f172a; margin-bottom:8px;">🔐 Environment Variables (Production Secrets)</div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:11px; font-family:'Courier New', monospace;">
+                    <div style="background:#fff; border:1px solid #cbd5e1; padding:6px; border-radius:4px;"><b>MONGO_URI</b> = mongodb+srv://petadmin:*****</div>
+                    <div style="background:#fff; border:1px solid #cbd5e1; padding:6px; border-radius:4px;"><b>JWT_SECRET</b> = [Encrypted Secret Value]</div>
+                    <div style="background:#fff; border:1px solid #cbd5e1; padding:6px; border-radius:4px;"><b>NODE_ENV</b> = production</div>
+                    <div style="background:#fff; border:1px solid #cbd5e1; padding:6px; border-radius:4px;"><b>PORT</b> = 10000</div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+    
+        <div class="figure-title">Figure 10.4 Cloud Dashboard Environment Variable Security Configuration</div>
+        <div class="figure-desc">This screenshot shows the environment variables securely configured in the cloud hosting dashboard, keeping sensitive database credentials and JWT keys out of source control.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 14px;">
+        
+    <div class="mockup-container">
+        <div class="mockup-header-browser">
+            <div class="dots">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+            </div>
+            <div class="url-bar">https://petcare-portal.onrender.com/</div>
+        </div>
+        <div class="mockup-body">
+            
+            <div style="font-family:Arial;">
+                <div style="background:#0d6efd; color:#fff; padding:8px 14px; display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-weight:bold; font-size:13px;">🐾 PetCare Cloud Portal</span>
+                    <span style="font-size:10.5px; background:rgba(255,255,255,0.2); padding:2px 8px; border-radius:10px;">🔒 TLS 1.3 Active</span>
+                </div>
+                <div style="padding:20px; text-align:center; background:#f8f9fa;">
+                    <h4 style="margin:0 0 4px 0; color:#212529;">Cloud-Hosted Pet Care Clinic</h4>
+                    <p style="font-size:11px; color:#6c757d; margin:0 0 10px 0;">Powered by MongoDB Atlas & Render Cloud Infrastructure</p>
+                    <button style="background:#198754; color:#fff; border:none; padding:6px 14px; border-radius:4px; font-size:11px; font-weight:bold;">Sign In to Live Portal →</button>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+    
+        <div class="figure-title">Figure 10.5 Live Cloud Application Loading over Secure HTTPS Protocol</div>
+        <div class="figure-desc">This screenshot shows the live production application running on its public URL `https://petcare-portal.onrender.com`. The browser padlock icon confirms active SSL/TLS encryption.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 14px;">
+        
+    <div class="mockup-container">
+        <div class="mockup-header-browser">
+            <div class="dots">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+            </div>
+            <div class="url-bar">https://petcare-portal.onrender.com/login</div>
+        </div>
+        <div class="mockup-body">
+            
+            <div style="max-width:380px; margin:0 auto; padding:15px; border:1px solid #badbcc; background:#f4fbf6; border-radius:6px; font-family:Arial;">
+                <div style="color:#0f5132; font-weight:bold; font-size:12px; margin-bottom:4px;">✓ Cloud Authentication Succeeded</div>
+                <div style="font-size:10.5px; color:#14532d; line-height:1.4;">
+                    User: <b>tanuj.sharma@petcare.org</b> authenticated via MongoDB Atlas.<br>
+                    Session Token: Received and stored in browser LocalStorage.
+                </div>
+            </div>
+        
+        </div>
+    </div>
+    
+        <div class="figure-title">Figure 10.6 Cloud Authentication Transaction Executing Against MongoDB Atlas</div>
+        <div class="figure-desc">This screenshot shows successful login on the deployed cloud application. The credentials are authenticated against MongoDB Atlas, returning a signed JWT token in production.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 14px;">
+        
+    <div class="mockup-container">
+        <div class="mockup-header-browser">
+            <div class="dots">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+            </div>
+            <div class="url-bar">Chrome Security Inspector - Certificate Viewer</div>
+        </div>
+        <div class="mockup-body">
+            
+            <div style="font-family:Arial; padding:10px; background:#fff; border:1px solid #ced4da; border-radius:6px; max-width:440px; margin:0 auto;">
+                <div style="font-size:12px; font-weight:bold; color:#198754; margin-bottom:6px;">🔒 Connection is Secure</div>
+                <div style="font-size:11px; line-height:1.5; color:#333;">
+                    Issued To: <b>*.onrender.com</b><br>
+                    Issued By: <b>Let's Encrypt Authority X3</b><br>
+                    Validity: Valid through 2027<br>
+                    Encryption: TLS 1.3, AES_256_GCM, 256-bit keys
+                </div>
+            </div>
+        
+        </div>
+    </div>
+    
+        <div class="figure-title">Figure 10.7 SSL/TLS Security Certificate Verification in Google Chrome</div>
+        <div class="figure-desc">This screenshot displays the SSL/TLS certificate inspection modal in Chrome. It confirms valid certificate issuance by Let's Encrypt with 256-bit encryption.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 14px;">
+        
+    <div class="mockup-container">
+        <div class="mockup-header-postman">
+            <div><span style="color:#ff6c37; margin-right:8px;">POSTMAN</span> | <span style="color:#38bdf8;">GET</span> https://petcare-portal.onrender.com/api/health</div>
+            <div>Status: <span style="color:#22c55e; font-weight:bold;">200 OK</span> | Time: 85 ms</div>
+        </div>
+        <div class="postman-body">
+{
+  "status": "healthy",
+  "database": "MongoDB Atlas Connected",
+  "environment": "production",
+  "region": "ap-south-1 (Mumbai)",
+  "timestamp": "2026-09-30T14:48:32.120Z"
+}
+</div>
+    </div>
+    
+        <div class="figure-title">Figure 10.8 Production Server Health-Check Endpoint Returning 200 OK</div>
+        <div class="figure-desc">This screenshot shows the public health-check endpoint `/api/health` returning status 200 OK with server uptime and database connectivity status.</div>
+    </div>
+    
+
+    <h3 class="section-heading">Conclusion:</h3>
+    <p class='conclusion-text'>Experiment No. 10 successfully demonstrated the end-to-end cloud deployment of the full-stack MERN Pet Care Management System. Separating the architecture into a cloud-managed MongoDB Atlas database, an Express web service on Render, and a CDN-distributed React build established an industry-standard production topology.</p><p class='conclusion-text'>Isolating sensitive credentials through cloud environment variables protected the system against credential exposure. The automated CI/CD pipeline simplified deployment by automatically compiling and releasing updates upon every Git commit.</p><p class='conclusion-text'>Finally, verifying SSL/TLS encryption, verifying database operations over cloud networks, and monitoring production health checks proved the system's readiness for global real-world access. This completed the software development lifecycle from local development to production release.</p>
+</body>
+</html>

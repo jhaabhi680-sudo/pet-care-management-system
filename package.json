@@ -1,0 +1,13 @@
+{
+  "name": "pet-care-management-system",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Full-Stack MERN Pet Care Management System for Web Lab Practical",
+  "scripts": {
+    "start": "node backend/server.js",
+    "seed": "node backend/seed.js"
+  },
+  "keywords": ["mern", "pet-care", "react", "express", "mongodb", "bootstrap"],
+  "author": "Web Lab Student",
+  "license": "MIT"
+}

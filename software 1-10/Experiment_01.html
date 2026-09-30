@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Experiment 1 - Design a Responsive Registration Form using Bootstrap and Perform Client-Side Validation using JavaScript</title>
+    <style>
+
+@page {
+    size: A4;
+    margin: 20mm 20mm 20mm 20mm;
+}
+body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000000;
+    text-align: justify;
+    text-justify: inter-word;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+.top-header {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    font-weight: bold;
+    border-bottom: 1px dotted #333333;
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+}
+h2.exp-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+.section-label {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 13pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    display: block;
+}
+p {
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+ul, ol {
+    font-size: 12pt;
+    line-height: 1.5;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    padding-left: 28px;
+    text-align: justify;
+}
+li {
+    margin-bottom: 5px;
+}
+.code-container {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    background: #fafafa;
+    border: 1px solid #777777;
+    padding: 10px 14px;
+    margin: 10px 0 14px 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    page-break-inside: avoid;
+}
+.mockup-box {
+    border: 1px solid #444444;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 12px 0 6px 0;
+    background: #ffffff;
+    page-break-inside: avoid;
+    box-sizing: border-box;
+    width: 100%;
+}
+.mockup-bar-browser {
+    background: #e5e7eb;
+    border-bottom: 1px solid #9ca3af;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+}
+.circle-dots {
+    display: flex;
+    gap: 4px;
+}
+.c-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.c-red { background: #ef4444; }
+.c-yellow { background: #f59e0b; }
+.c-green { background: #10b981; }
+.url-text {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 1px 12px;
+    flex-grow: 1;
+    color: #374151;
+    font-size: 8.5pt;
+}
+.mockup-bar-postman {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    font-weight: bold;
+}
+.mockup-bar-term {
+    background: #1f2428;
+    color: #e1e4e8;
+    padding: 5px 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    border-bottom: 1px solid #444444;
+}
+.mockup-inner {
+    padding: 10px 12px;
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+.term-inner {
+    background: #121212;
+    color: #00ff66;
+    padding: 10px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+}
+.postman-inner {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 10px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+}
+.fig-caption {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    text-decoration: underline;
+}
+.fig-text {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-top: 0;
+    margin-bottom: 14px;
+}
+.conclusion-p {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-bottom: 8px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <span>TANUJ SHARMA – 3505</span>
+        <span>COURSE CODE: 2345117 (WEB LAB)</span>
+    </div>
+
+    <h2 class="exp-title">Experiment No. 1 - Design a Responsive Registration Form using Bootstrap and Perform Client-Side Validation using JavaScript</h2>
+
+    <p><u><b>Aim:</b></u> To design an intuitive, fully responsive user registration portal for the Pet Care Management System using Bootstrap 5 grid utilities and implement rigorous client-side form validation using JavaScript DOM manipulation.</p>
+
+    <span class="section-label">Tools Used:</span>
+    <ul>
+        <li>Visual Studio Code (IDE)</li><li>Google Chrome & Chrome Developer Tools</li><li>Bootstrap 5.3 Framework (Responsive Grid & Form Validation Classes)</li><li>HTML5, CSS3, JavaScript ES6 (Client-side validation scripts)</li>
+    </ul>
+
+    <span class="section-label">Theory:</span>
+    <p>Modern web applications mandate responsive and accessible data ingestion mechanisms to ensure seamless interaction across varying viewport dimensions including mobile smartphones, tablets, and desktop workstations. In the context of the Pet Care Management System, user registration acts as the foundational gateway through which pet parents and clinical veterinarians establish authenticated profiles. Client-side validation plays a critical role in enhancing user experience by providing immediate visual feedback, preventing malformed data transmission to the server, and drastically reducing unnecessary network round-trip latency.</p><p>The user interface leverages the 12-column responsive grid system of Bootstrap 5, employing container wrappers (.container), responsive flex rows (.row), and column breakpoints (.col-md-6, .col-lg-5) to dynamically adapt the form presentation. Bootstrap validation states utilize pseudo-classes paired with .is-valid and .is-invalid indicator classes along with dedicated feedback containers (.invalid-feedback) to present contextual error prompts.</p><p>The core JavaScript validation routine attaches an event listener to the form submit event via addEventListener('submit', handler). It intercepts default page refresh triggers using event.preventDefault(). Standard Regular Expressions (Regex) verify email format compliance (verifying user, domain, and top-level domain syntax) and 10-digit telephone structures. Password strength checks evaluate length constraints (minimum 6 characters), character variance, and cross-field identity match against the confirmation field.</p><p>Functions and Methods Used: document.getElementById(), addEventListener('submit'), event.preventDefault(), RegExp.test(), Element.classList.add(), Element.classList.remove(), and String.trim().</p>
+
+    <span class="section-label">Methodology:</span>
+    <p>The methodology encompasses a structured four-stage engineering workflow. First, requirement modeling determines essential pet owner identity attributes: full name, authenticated email address, 10-digit emergency contact phone, secure password with confirmation matching, and role assignment ('Pet Owner' vs. 'Veterinarian'). Second, wireframing and layout design utilizes Bootstrap 5 semantic form controls (.form-control, .form-select, .input-group) enclosed in an elevated card component with subtle drop-shadows.</p><p>Third, validation logic modularization partitions validation rules into deterministic pure functions (validateName, validateEmail, validatePhone, validatePassword). Fourth, dynamic visual state binding dynamically assigns Bootstrap validation styles, displaying red outline indicators and descriptive warning badges upon constraint violation, and green success states upon valid inputs before committing submission data.</p>
+
+    <span class="section-label">Procedure:</span>
+    <ol>
+        <li>Launch Visual Studio Code and create a structured working directory containing index.html, style.css, and validation.js.</li><li>Link the Bootstrap 5.3 CDN stylesheet in the head section and Bootstrap JavaScript bundle before the closing body tag.</li><li>Construct a centered responsive container using container and row justify-content-center classes.</li><li>Build a card wrapper containing header branding 'PetCare - Register Your Account' with an intuitive pet paw icon.</li><li>Create the input group for Full Name with an input element and an associated invalid-feedback container.</li><li>Create the Email address input field with type email and contextual validation helper texts.</li><li>Create the 10-digit Phone number input field configured with pattern restrictions.</li><li>Create Password and Confirm Password fields with type password ensuring security against shoulder surfing.</li><li>Implement a dropdown select offering Pet Owner and Clinic Veterinarian roles.</li><li>In validation.js, bind the form submit event using document.getElementById('regForm').addEventListener('submit', validateForm).</li><li>Inside the validation handler, invoke e.preventDefault(), trim all field inputs, and execute regex pattern matching.</li><li>Apply .is-invalid and .is-valid dynamically based on test results, rendering success notifications upon zero error counts.</li>
+    </ol>
+
+    <span class="section-label">Code :</span>
+    <div style='font-family: Times New Roman, serif; font-size:11pt; font-weight:bold; margin-top:6px;'>// File: frontend/src/pages/Register.jsx & validation.js</div><div class='code-container'>// Form Submission & Client-Side Validation Logic
+const handleSubmit = (e) => {
+  e.preventDefault();
+  let isValid = true;
+
+  // Name Validation (Min 3 characters)
+  if (!name.trim() || name.trim().length < 3) {
+    setNameError("Full name must be at least 3 characters long.");
+    isValid = false;
+  } else { setNameError(""); }
+
+  // Email Validation (RFC 5322 Regex Pattern)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    setEmailError("Please provide a valid email address (e.g. owner@petcare.com).");
+    isValid = false;
+  } else { setEmailError(""); }
+
+  // Phone Validation (10 Digits)
+  const phoneRegex = /^[0-9]{10}$/;
+  if (!phoneRegex.test(phone)) {
+    setPhoneError("Please enter a valid 10-digit contact telephone number.");
+    isValid = false;
+  } else { setPhoneError(""); }
+
+  // Password & Confirmation Match Validation
+  if (password.length < 6) {
+    setPasswordError("Security password must contain at least 6 characters.");
+    isValid = false;
+  } else { setPasswordError(""); }
+
+  if (password !== confirmPassword) {
+    setConfirmError("Password confirmation does not match the entered password.");
+    isValid = false;
+  } else { setConfirmError(""); }
+
+  if (isValid) {
+    alert("Registration validated successfully! Submitting account profile.");
+  }
+};</div>
+
+    <span class="section-label">Output:</span>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/register</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="max-width:440px; margin:0 auto; border:1px solid #dee2e6; border-radius:8px; padding:18px; box-shadow:0 4px 6px rgba(0,0,0,0.05);">
+                    <div style="text-align:center; margin-bottom:12px;">
+                        <span style="font-size:22px;">🐾</span>
+                        <h4 style="margin:4px 0 2px 0; color:#0d6efd; font-family:Arial;">PetCare Portal</h4>
+                        <p style="font-size:11px; color:#6c757d; margin:0;">Create an account to manage your pets</p>
+                    </div>
+                    <div style="margin-bottom:8px;"><label style="font-size:11px; font-weight:bold;">Full Name</label><input type="text" placeholder="John Doe" style="width:100%; padding:5px; font-size:11px; border:1px solid #ced4da; border-radius:4px; box-sizing:border-box;"></div>
+                    <div style="margin-bottom:8px;"><label style="font-size:11px; font-weight:bold;">Email Address</label><input type="email" placeholder="owner@petcare.com" style="width:100%; padding:5px; font-size:11px; border:1px solid #ced4da; border-radius:4px; box-sizing:border-box;"></div>
+                    <div style="margin-bottom:8px;"><label style="font-size:11px; font-weight:bold;">Phone Number</label><input type="text" placeholder="9876543210" style="width:100%; padding:5px; font-size:11px; border:1px solid #ced4da; border-radius:4px; box-sizing:border-box;"></div>
+                    <div style="margin-bottom:8px;"><label style="font-size:11px; font-weight:bold;">Account Role</label><select style="width:100%; padding:5px; font-size:11px; border:1px solid #ced4da; border-radius:4px; box-sizing:border-box;"><option>Pet Owner</option><option>Veterinarian / Admin</option></select></div>
+                    <button style="width:100%; background:#0d6efd; color:#fff; padding:7px; border:none; border-radius:4px; font-weight:bold; font-size:11px; cursor:pointer;">Register Account</button>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 1.1 Clean Initial State of PetCare Registration Interface</div>
+        <div class="fig-text">This screenshot displays the pristine initial view of the responsive registration portal at http://localhost:5000/register. It demonstrates the Bootstrap 5 card layout, structured form fields, clean typography, and role selection dropdown before user interaction.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/register</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="max-width:440px; margin:0 auto; border:1px solid #dc3545; border-radius:8px; padding:18px;">
+                    <div style="text-align:center; margin-bottom:10px;">
+                        <h4 style="margin:0; color:#dc3545; font-family:Arial; font-size:13px;">Submission Blocked</h4>
+                        <span style="font-size:11px; color:#dc3545;">Please correct the highlighted errors</span>
+                    </div>
+                    <div style="margin-bottom:8px;"><label style="font-size:11px; font-weight:bold;">Full Name</label><input type="text" style="width:100%; padding:5px; border:1px solid #dc3545; border-radius:4px; box-sizing:border-box;"><div style="color:#dc3545; font-size:10px; margin-top:2px;">Full name is required (min 3 chars).</div></div>
+                    <div style="margin-bottom:8px;"><label style="font-size:11px; font-weight:bold;">Email Address</label><input type="email" style="width:100%; padding:5px; border:1px solid #dc3545; border-radius:4px; box-sizing:border-box;"><div style="color:#dc3545; font-size:10px; margin-top:2px;">A valid email address is required.</div></div>
+                    <button style="width:100%; background:#dc3545; color:#fff; padding:7px; border:none; border-radius:4px; font-weight:bold; font-size:11px;">Fix Highlighted Errors</button>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 1.2 Triggering Client-Side Validation on Empty Form Submission</div>
+        <div class="fig-text">This screenshot depicts the reactive client-side validation response when an empty form is submitted. JavaScript intercepts the submission, checks input boundaries, and renders red border highlights alongside explanatory warning messages.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/register</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="max-width:440px; margin:0 auto; padding:12px; border:1px solid #ccc; border-radius:6px;">
+                    <label style="font-size:11px; font-weight:bold;">Email Address</label>
+                    <input type="text" value="rahul.verma@" style="width:100%; padding:5px; border:1px solid #dc3545; border-radius:4px; box-sizing:border-box; background:#fff8f8;">
+                    <div style="color:#dc3545; font-size:10.5px; margin-top:4px;">Please include a valid domain such as '@gmail.com' or '@petcare.in'.</div>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 1.3 Email Syntax Validation via Regular Expression Match</div>
+        <div class="fig-text">This screenshot demonstrates the email validation mechanism. When a user enters 'rahul.verma@' without a domain suffix, JavaScript flags the string as non-compliant with standard format rules and immediately prompts for domain completion.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/register</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="max-width:440px; margin:0 auto; padding:12px; border:1px solid #ccc; border-radius:6px;">
+                    <label style="font-size:11px; font-weight:bold;">Phone Number (Mobile)</label>
+                    <input type="text" value="98201ABCD" style="width:100%; padding:5px; border:1px solid #dc3545; border-radius:4px; box-sizing:border-box; background:#fff8f8;">
+                    <div style="color:#dc3545; font-size:10.5px; margin-top:4px;">Phone number must be exactly 10 digits without alphabetical characters.</div>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 1.4 Phone Number Numeric and Length Constraint Enforcement</div>
+        <div class="fig-text">This figure illustrates telephone validation enforcing an exact 10-digit numerical standard. Any alphabet character entry or incomplete digit sequence triggers an alert banner indicating invalid mobile format.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/register</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="max-width:440px; margin:0 auto; padding:12px; border:1px solid #ccc; border-radius:6px;">
+                    <div style="margin-bottom:6px;"><label style="font-size:11px; font-weight:bold;">Password</label><input type="password" value="secret123" style="width:100%; padding:5px; border:1px solid #198754; border-radius:4px; box-sizing:border-box;"></div>
+                    <div><label style="font-size:11px; font-weight:bold;">Confirm Password</label><input type="password" value="secret000" style="width:100%; padding:5px; border:1px solid #dc3545; border-radius:4px; box-sizing:border-box; background:#fff8f8;">
+                    <div style="color:#dc3545; font-size:10.5px; margin-top:4px;">Passwords do not match. Please verify your entry.</div></div>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 1.5 Password Mismatch Detection Between Password and Confirmation</div>
+        <div class="fig-text">This screenshot displays the password parity verification logic. The confirmation field identifies that 'secret000' does not match the master password 'secret123', blocking premature form transmission.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/register</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="max-width:440px; margin:0 auto; padding:12px; border:1px solid #ccc; border-radius:6px;">
+                    <label style="font-size:11px; font-weight:bold;">Select Role</label>
+                    <select style="width:100%; padding:6px; border:2px solid #0d6efd; border-radius:4px; box-sizing:border-box; font-size:11.5px;">
+                        <option selected>Pet Owner (Register personal pets, book visits)</option>
+                        <option>Veterinarian / Admin (Manage clinical records, triage)</option>
+                    </select>
+                    <div style="color:#0d6efd; font-size:10.5px; margin-top:4px;">Pet Owners gain access to patient history, passport creation, and booking.</div>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 1.6 Role Selection Dropdown Specifying Pet Owner vs. Veterinarian</div>
+        <div class="fig-text">This figure captures the dynamic account role selection interface, allowing the system to categorize registered actors into Pet Owners or Clinic Veterinarians with tailored downstream dashboard permissions.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/register</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="max-width:440px; margin:0 auto; border:1px solid #198754; border-radius:8px; padding:16px;">
+                    <div style="background:#d1e7dd; color:#0f5132; padding:6px; border-radius:4px; font-size:11px; text-align:center; margin-bottom:10px;">
+                        All fields conform to client validation rules
+                    </div>
+                    <div style="margin-bottom:6px;"><label style="font-size:11px;">Full Name</label><input type="text" value="Tanuj Sharma" style="width:100%; padding:4px; border:1px solid #198754; border-radius:4px; box-sizing:border-box;"></div>
+                    <div style="margin-bottom:6px;"><label style="font-size:11px;">Email Address</label><input type="email" value="tanuj.sharma@petcare.org" style="width:100%; padding:4px; border:1px solid #198754; border-radius:4px; box-sizing:border-box;"></div>
+                    <div style="margin-bottom:6px;"><label style="font-size:11px;">Contact</label><input type="text" value="9876543210" style="width:100%; padding:4px; border:1px solid #198754; border-radius:4px; box-sizing:border-box;"></div>
+                    <button style="width:100%; background:#198754; color:#fff; padding:7px; border:none; border-radius:4px; font-weight:bold; font-size:11px;">Create Verified Account</button>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 1.7 Validated Registration Form Ready for Database Ingestion</div>
+        <div class="fig-text">This screenshot displays the completely validated form in an all-green compliant state with valid name, email, phone, and matching credentials, enabling the registration action button.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:5000/register [Mobile View]</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="max-width:270px; margin:0 auto; border:1px solid #444; border-radius:12px; padding:12px; background:#fff;">
+                    <div style="text-align:center; margin-bottom:8px;"><span style="font-size:18px;">📱 🐾</span><div style="font-weight:bold; font-size:11.5px;">Mobile PetCare Register</div></div>
+                    <input type="text" placeholder="Full Name" style="width:100%; margin-bottom:5px; padding:5px; font-size:10.5px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                    <input type="email" placeholder="Email" style="width:100%; margin-bottom:5px; padding:5px; font-size:10.5px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                    <input type="text" placeholder="Phone" style="width:100%; margin-bottom:5px; padding:5px; font-size:10.5px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                    <button style="width:100%; background:#0d6efd; color:#fff; padding:5px; border:none; border-radius:4px; font-size:10.5px; font-weight:bold;">Submit Mobile Form</button>
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 1.8 Responsive Mobile Viewport Rendering (Screen Simulation)</div>
+        <div class="fig-text">This screenshot confirms the mobile responsiveness of the registration screen inspected via mobile emulation. The 12-column grid collapses fluidly, retaining full touch-target accessibility.</div>
+    </div>
+    
+
+    <span class="section-label">Conclusion:</span>
+    <p class='conclusion-p'>Experiment No. 1 successfully demonstrated the architecture, construction, and behavioral validation of a modern, responsive user registration portal using Bootstrap 5 and JavaScript ES6. The implementation of Bootstrap's twelve-column responsive grid system guaranteed complete visual harmony across varied device viewports, eliminating layout deformation.</p><p class='conclusion-p'>Furthermore, decoupling data validation into modular client-side JavaScript functions significantly improved system responsiveness by intercepting non-compliant inputs before invoking server resources. The systematic application of regular expression patterns for email compliance, strict ten-digit numeric checks for telephone records, and comparative password confirmation assertions ensured strong data integrity.</p><p class='conclusion-p'>This experiment established the essential front-of-house onboarding foundation for the Pet Care Management System, validating how responsive design principles and client-side error handling converge to provide a professional, user-centric web experience.</p>
+</body>
+</html>

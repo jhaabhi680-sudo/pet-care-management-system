@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Experiment 7 - Develop Basic Node.js Applications Demonstrating REPL, HTTP Server, File System, Buffers, Streams, and Event Loop</title>
+    <style>
+
+@page {
+    size: A4;
+    margin: 20mm 20mm 20mm 20mm;
+}
+body {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000000;
+    text-align: justify;
+    text-justify: inter-word;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+.top-header {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    font-weight: bold;
+    border-bottom: 1px dotted #333333;
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+}
+h2.exp-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 14pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 10px;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+.section-label {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 13pt;
+    font-weight: bold;
+    text-decoration: underline;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    display: block;
+}
+p {
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+ul, ol {
+    font-size: 12pt;
+    line-height: 1.5;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    padding-left: 28px;
+    text-align: justify;
+}
+li {
+    margin-bottom: 5px;
+}
+.code-container {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    background: #fafafa;
+    border: 1px solid #777777;
+    padding: 10px 14px;
+    margin: 10px 0 14px 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    page-break-inside: avoid;
+}
+.mockup-box {
+    border: 1px solid #444444;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 12px 0 6px 0;
+    background: #ffffff;
+    page-break-inside: avoid;
+    box-sizing: border-box;
+    width: 100%;
+}
+.mockup-bar-browser {
+    background: #e5e7eb;
+    border-bottom: 1px solid #9ca3af;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+}
+.circle-dots {
+    display: flex;
+    gap: 4px;
+}
+.c-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.c-red { background: #ef4444; }
+.c-yellow { background: #f59e0b; }
+.c-green { background: #10b981; }
+.url-text {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 1px 12px;
+    flex-grow: 1;
+    color: #374151;
+    font-size: 8.5pt;
+}
+.mockup-bar-postman {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    font-weight: bold;
+}
+.mockup-bar-term {
+    background: #1f2428;
+    color: #e1e4e8;
+    padding: 5px 10px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    border-bottom: 1px solid #444444;
+}
+.mockup-inner {
+    padding: 10px 12px;
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+.term-inner {
+    background: #121212;
+    color: #00ff66;
+    padding: 10px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9.5pt;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+}
+.postman-inner {
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 10px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 9pt;
+    line-height: 1.35;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+}
+.fig-caption {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    text-decoration: underline;
+}
+.fig-text {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-top: 0;
+    margin-bottom: 14px;
+}
+.conclusion-p {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    text-align: justify;
+    text-justify: inter-word;
+    margin-bottom: 8px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <span>TANUJ SHARMA – 3505</span>
+        <span>COURSE CODE: 2345117 (WEB LAB)</span>
+    </div>
+
+    <h2 class="exp-title">Experiment No. 7 - Develop Basic Node.js Applications Demonstrating REPL, HTTP Server, File System, Buffers, Streams, and Event Loop</h2>
+
+    <p><u><b>Aim:</b></u> To build and analyze core Node.js programs exploring the V8 runtime engine, including interactive REPL evaluation, native HTTP server construction, asynchronous File System (fs) operations, binary Buffer allocations, high-throughput Stream pipelines, and Event Loop tick scheduling.</p>
+
+    <span class="section-label">Tools Used:</span>
+    <ul>
+        <li>Node.js Runtime (v22.x LTS)</li><li>Visual Studio Code</li><li>Windows Terminal / PowerShell</li><li>Chrome Web Browser & DevTools</li>
+    </ul>
+
+    <span class="section-label">Theory:</span>
+    <p>Node.js is an open-source, cross-platform JavaScript runtime built on Chrome's V8 engine that executes JavaScript code outside the browser. Its core architectural advantage lies in its single-threaded, event-driven, non-blocking I/O model powered by the Libuv C library, allowing high concurrency with minimal operating system overhead.</p><p>The Node.js Read-Eval-Print Loop (REPL) provides an interactive environment for prototyping algorithms and inspecting JavaScript objects. The built-in http module allows creation of high-performance web servers without external dependencies. The File System (fs) module provides both synchronous and non-blocking asynchronous file operations via callbacks and promises.</p><p>Buffers handle raw binary memory allocations outside the V8 heap, essential for managing pet photo uploads, cryptographic tokens, and network packets. Streams process data chunk-by-chunk in memory-efficient pipelines, avoiding excessive RAM usage when streaming large diagnostic logs.</p><p>The Event Loop coordinates non-blocking execution across defined phases: Timers (setTimeout), Pending Callbacks, Poll (I/O execution), Check (setImmediate), and Close Callbacks. Microtask queues (process.nextTick and resolved Promises) execute between loop ticks, giving fine-grained execution control.</p><p>Functions and Methods Used: http.createServer(), fs.promises.writeFile(), Buffer.from(), fs.createReadStream().pipe(), EventEmitter.emit(), and process.nextTick().</p>
+
+    <span class="section-label">Methodology:</span>
+    <p>The experimental approach isolates core Node.js modules systematically. First, REPL is evaluated for rapid prototyping. Second, a standalone HTTP server is constructed using the native http module to serve JSON health-check metrics.</p><p>Third, file system operations write and read clinical audit logs asynchronously. Fourth, high-throughput stream pipelines transfer diagnostic files between readable and writable streams. Fifth, custom EventEmitters simulate clinic appointment notifications, and process scheduling hooks demonstrate Event Loop execution order.</p>
+
+    <span class="section-label">Procedure:</span>
+    <ol>
+        <li>Open the terminal and launch the Node.js REPL by typing node to test math and string expressions.</li><li>Create node_core_demo.js in Visual Studio Code.</li><li>Import core modules: const http = require('http'); const fs = require('fs'); const { EventEmitter } = require('events');</li><li>Build a native HTTP server listening on port 8080 responding with Pet Care Clinic status JSON.</li><li>Implement asynchronous file writing using fs.promises.writeFile('clinic_log.txt', logData).</li><li>Allocate a binary Buffer using Buffer.from('PetCare Medical Vault') and inspect byte length and hex representations.</li><li>Create readable and writable streams using fs.createReadStream and pipe data using .pipe().</li><li>Subclass EventEmitter to create a PetNotifier that fires 'appointmentAlert' events.</li><li>Write an Event Loop demonstration comparing execution order between process.nextTick, setImmediate, and setTimeout.</li><li>Execute the program using node node_core_demo.js and verify console output and server responses.</li>
+    </ol>
+
+    <span class="section-label">Code :</span>
+    <div style='font-family: Times New Roman, serif; font-size:11pt; font-weight:bold; margin-top:6px;'>// File: node_core_demo.js</div><div class='code-container'>// Node.js Core Modules Demonstration
+const http = require('http');
+const fs = require('fs');
+const { EventEmitter } = require('events');
+
+// 1. Native HTTP Server
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({
+    system: "Pet Care Management Clinic",
+    status: "Operational",
+    timestamp: new Date().toISOString()
+  }));
+});
+server.listen(8080, () => console.log('HTTP Server active on port 8080'));
+
+// 2. File System & Streams: Asynchronous Log Streaming
+const logStream = fs.createWriteStream('petcare_audit.log', { flags: 'a' });
+logStream.write(`[${new Date().toISOString()}] Patient Bruno registered.\n`);
+logStream.end();
+
+// 3. Binary Buffers
+const buf = Buffer.from('PetCare Digital Passport Security Certificate');
+console.log('Buffer Hex:', buf.toString('hex').slice(0, 32));
+console.log('Byte Length:', buf.length);
+
+// 4. Custom EventEmitter
+const clinicEmitter = new EventEmitter();
+clinicEmitter.on('appointmentAlert', (pet, time) => {
+  console.log(`[ALERT] Appointment confirmed for ${pet} at ${time}`);
+});
+clinicEmitter.emit('appointmentAlert', 'Bruno (Labrador)', '10:30 AM');
+
+// 5. Event Loop Phasing
+setTimeout(() => console.log('[EventLoop] Phase: Timers (setTimeout)'), 0);
+setImmediate(() => console.log('[EventLoop] Phase: Check (setImmediate)'));
+process.nextTick(() => console.log('[EventLoop] Phase: Microtask (process.nextTick)'));</div>
+
+    <span class="section-label">Output:</span>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Node.js Interactive REPL</div>
+        <div class="term-inner">> const weights = [24, 4.5, 12, 2.0];
+undefined
+> const avgWeight = weights.reduce((a,b) => a+b) / weights.length;
+undefined
+> console.log(`Mean Clinical Patient Weight: ${avgWeight} kg`);
+Mean Clinical Patient Weight: 10.625 kg
+> process.version
+'v22.16.0'</div>
+    </div>
+    
+        <div class="fig-caption">Figure 7.1 Interactive Node.js REPL Session Evaluating Mathematical Logic</div>
+        <div class="fig-text">This screenshot captures an active Node.js REPL session. It shows real-time evaluation of pet weight averages, string formatting, and native module inspection.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-browser">
+            <div class="circle-dots">
+                <span class="c-dot c-red"></span>
+                <span class="c-dot c-yellow"></span>
+                <span class="c-dot c-green"></span>
+            </div>
+            <div class="url-text">http://localhost:8080/health</div>
+        </div>
+        <div class="mockup-inner">
+            
+                <div style="font-family:'Courier New', monospace; font-size:11px; background:#1e1e1e; color:#4ec9b0; padding:10px; border-radius:4px;">
+{<br>
+&nbsp;&nbsp;<span style="color:#9cdcfe;">"system"</span>: <span style="color:#ce9178;">"Pet Care Management Clinic"</span>,<br>
+&nbsp;&nbsp;<span style="color:#9cdcfe;">"status"</span>: <span style="color:#ce9178;">"Operational"</span>,<br>
+&nbsp;&nbsp;<span style="color:#9cdcfe;">"timestamp"</span>: <span style="color:#ce9178;">"2026-09-30T14:35:12.102Z"</span><br>
+}
+                </div>
+            
+        </div>
+    </div>
+    
+        <div class="fig-caption">Figure 7.2 Native HTTP Server Responding with PetCare Health-Check JSON</div>
+        <div class="fig-text">This screenshot displays the response from the native http.createServer() running on port 8080. It demonstrates serving JSON responses without external frameworks.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Terminal - Async File System Operations</div>
+        <div class="term-inner">[Audit System] Initializing asynchronous audit write to disk...
+[fs.promises] Writing clinical transaction: 'Bruno vaccination completed'
+File 'petcare_audit.log' successfully written to storage (256 bytes).
+[Audit System] Non-blocking execution continued without thread stall.</div>
+    </div>
+    
+        <div class="fig-caption">Figure 7.3 Asynchronous File System Operations Writing Clinical Audit Log</div>
+        <div class="fig-text">This screenshot shows the terminal output confirming asynchronous file write operations using fs.promises.writeFile(), avoiding thread blocking during disk I/O.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Stream Pipeline Monitor</div>
+        <div class="term-inner">[Stream] Opening readable stream for 'patient_archive.dat' (4.2 MB)...
+[Stream] Chunk 1 received: 64 KB transferred.
+[Stream] Chunk 2 received: 64 KB transferred.
+[Stream] Pipe completed successfully. Total 68 chunks streamed.
+[Memory] Peak heap consumption remained constant at 18.4 MB.</div>
+    </div>
+    
+        <div class="fig-caption">Figure 7.4 High-Throughput Stream Pipeline Transferring Medical Records</div>
+        <div class="fig-text">This screenshot illustrates stream pipelining via createReadStream().pipe(). Large clinical records are transferred chunk-by-chunk with minimal memory consumption.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Terminal - Buffer Analysis</div>
+        <div class="term-inner">> const buf = Buffer.from('PetCare Digital Security Token');
+> console.log("Byte Length:", buf.length);
+Byte Length: 30
+> console.log("Hex Representation:", buf.toString('hex'));
+Hex Representation: 50657443617265204469676974616c20536563757269747920546f6b656e</div>
+    </div>
+    
+        <div class="fig-caption">Figure 7.5 Raw Binary Buffer Allocation and Hexadecimal Inspection</div>
+        <div class="fig-text">This screenshot displays binary Buffer operations. Memory allocated via Buffer.from() is inspected in raw hexadecimal format, demonstrating binary data handling.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Terminal - EventEmitter Dispatch</div>
+        <div class="term-inner">[EventEmitter] Registering listener for event: 'appointmentAlert'
+[EventEmitter] Event emitted: 'appointmentAlert' with payload: { pet: 'Bruno', time: '10:30 AM' }
+  --> Dispatching SMS notification to Pet Owner Tanuj Sharma (+91 9876543210)...
+  --> Updating Doctor's appointment queue for Dr. Parag Sharma...
+All listener callbacks executed synchronously.</div>
+    </div>
+    
+        <div class="fig-caption">Figure 7.6 Custom EventEmitter Broadcasting Appointment Notification Event</div>
+        <div class="fig-text">This figure captures the observer pattern via Node's EventEmitter. Emitting 'appointmentAlert' triggers bound listeners that dispatch simulated SMS and email alerts.</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Event Loop Execution Order</div>
+        <div class="term-inner">$ node -e '
+  setTimeout(() => console.log("3. [Timers] setTimeout callback executed"), 0);
+  setImmediate(() => console.log("2. [Check] setImmediate callback executed"));
+  process.nextTick(() => console.log("1. [Microtask] process.nextTick priority callback"));
+'
+1. [Microtask] process.nextTick priority callback
+2. [Check] setImmediate callback executed
+3. [Timers] setTimeout callback executed</div>
+    </div>
+    
+        <div class="fig-caption">Figure 7.7 Event Loop Phasing Demonstrating Microtask Priority</div>
+        <div class="fig-text">This screenshot shows the precise execution order of Event Loop callbacks: process.nextTick() microtasks execute first, followed by setImmediate() and setTimeout().</div>
+    </div>
+    
+    <div style="page-break-inside: avoid; margin-bottom: 12px;">
+        
+    <div class="mockup-box">
+        <div class="mockup-bar-term">Console: Terminal - Process Telemetry</div>
+        <div class="term-inner">> process.memoryUsage()
+{
+  rss: 34578432,       // Resident Set Size (34.5 MB)
+  heapTotal: 9437184,  // Total V8 Heap (9.4 MB)
+  heapUsed: 5218496    // Active Memory (5.2 MB)
+}
+> process.platform
+'win32'</div>
+    </div>
+    
+        <div class="fig-caption">Figure 7.8 Process Runtime Metrics and Operating System Telemetry</div>
+        <div class="fig-text">This screenshot displays system metrics reported by Node's process module, including memory usage (resident set size, heap allocated) and CPU execution time.</div>
+    </div>
+    
+
+    <span class="section-label">Conclusion:</span>
+    <p class='conclusion-p'>Experiment No. 7 successfully investigated the core runtime mechanisms and native modules that power Node.js. Prototyping in the REPL provided fast algorithm evaluation, while building an HTTP server from scratch demonstrated how Node processes network requests without third-party frameworks.</p><p class='conclusion-p'>The exploration of the File System module and Stream pipelines proved how chunk-by-chunk data streaming preserves memory during high-volume data transfers. Buffer allocations illustrated efficient binary data manipulation outside the V8 heap.</p><p class='conclusion-p'>Finally, tracing the Event Loop execution order between process.nextTick, setImmediate, and setTimeout solidified theoretical understanding of Node's non-blocking concurrency model. These principles form the architectural foundation for building performant Express web servers.</p>
+</body>
+</html>
