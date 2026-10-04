@@ -18,7 +18,6 @@ Designed for veterinary clinics and pet owners to streamline appointment schedul
 9. [RESTful API Endpoints Documentation](#-restful-api-endpoints-documentation)
 10. [Testing with Postman](#-testing-with-postman)
 11. [Troubleshooting & Common Errors](#-troubleshooting--common-errors)
-12. [Viva Voce Questions & Answers](#-viva-voce-questions--answers)
 
 ---
 
@@ -95,7 +94,7 @@ This project directly implements all 10 practical experiments from the **Web Lab
 pet-care-management-system/
 ├── postman_collection.json          # Ready-to-import Postman API collection
 ├── package.json                     # Root package metadata
-├── README.md                        # Documentation & viva guide
+├── README.md                        # Project documentation guide
 │
 ├── frontend/                        # React Frontend (Vite)
 │   ├── .env                         # Frontend environment variables
@@ -362,28 +361,3 @@ All endpoints are prefixed with `/api`.
 | `Port 5000 or 3000 already in use` | Another process is holding the port. | Change `PORT=5001` in `backend/.env` and update `VITE_API_URL` in `frontend/.env`. |
 
 ---
-
-## 🎓 Viva Voce Questions & Answers
-
-### Q1: What is the MERN stack and how is it used in this project?
-**Ans:** MERN stands for **MongoDB, Express.js, React.js, and Node.js**. In this project:
-- **MongoDB** stores document data (users, pets, appointments, medical records).
-- **Express.js** runs on top of Node.js to provide RESTful API endpoints and middleware.
-- **React.js** powers the interactive Single Page Application (SPA) frontend.
-- **Node.js** executes JavaScript on the server side.
-
-### Q2: How does client-side validation differ from server-side validation?
-**Ans:** Client-side validation runs in the browser (e.g., regex checking in `Register.jsx`) for immediate user feedback without waiting for network latency. Server-side validation runs in Mongoose models and Express controllers to ensure data integrity and prevent malicious or bypassed payloads.
-
-### Q3: How is authentication handled securely?
-**Ans:** When a user registers or logs in, their password is encrypted using **bcryptjs** (salted hashing) before storing in MongoDB. Upon successful authentication, a signed **JSON Web Token (JWT)** is returned to the client and stored in `localStorage`. Subsequent API calls pass this token in the `Authorization: Bearer <token>` HTTP header, which is verified by `authMiddleware.js`.
-
-### Q4: What are React Hooks used in this project?
-**Ans:**
-- `useState`: Manages local component state (form inputs, modal visibility, filter queries).
-- `useEffect`: Manages component lifecycle (fetching data from REST API when page mounts).
-- `useContext`: Shares global authentication state (`AuthContext.jsx`) across all pages without prop-drilling.
-
-### Q5: How do the Pet Owner and Veterinarian dashboards differ?
-**Ans:** Role-based authorization is enforced on both frontend and backend. While pet owners can only see and book appointments for their own registered pets, veterinarians and administrators have privileges to view all hospital patients, update appointment statuses (`Confirmed`/`Completed`), and record diagnostic medical prescriptions.
-# pet-care-management-system
