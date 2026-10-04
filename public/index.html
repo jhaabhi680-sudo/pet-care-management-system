@@ -248,17 +248,402 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
 
-    // Helper for JSON API calls
-    async function apiRequest(endpoint, method = 'GET', body = null, token = null) {
-      const headers = { 'Content-Type': 'application/json' };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-      const config = { method, headers };
-      if (body) config.body = JSON.stringify(body);
+    // ==========================================
+    // Client-Side Database & Mock API Engine
+    // Supports instant offline & GitHub Pages static preview
+    // ==========================================
+    const INITIAL_USERS = [
+      {
+        _id: 'usr_owner_1',
+        name: 'Rahul Sharma',
+        email: 'rahul@example.com',
+        phone: '+91 98112 23344',
+        password: 'password123',
+        role: 'owner',
+        token: 'mock_token_rahul_123',
+      },
+      {
+        _id: 'usr_admin_1',
+        name: 'Dr. Aditi Sharma',
+        email: 'admin@petcare.com',
+        phone: '+91 98765 43210',
+        password: 'password123',
+        role: 'veterinarian',
+        qualification: 'B.V.Sc & A.H, M.V.Sc (Surgery)',
+        token: 'mock_token_admin_123',
+      },
+      {
+        _id: 'usr_vet_1',
+        name: 'Dr. Vikram Patel',
+        email: 'vet@petcare.com',
+        phone: '+91 98989 12345',
+        password: 'password123',
+        role: 'veterinarian',
+        token: 'mock_token_vet_123',
+      },
+      {
+        _id: 'usr_owner_2',
+        name: 'Priya Patel',
+        email: 'priya@example.com',
+        phone: '+91 98223 34455',
+        password: 'password123',
+        role: 'owner',
+        token: 'mock_token_priya_123',
+      }
+    ];
 
-      const res = await fetch('/api' + endpoint, config);
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'API request failed');
-      return data;
+    const INITIAL_SERVICES = [
+      { _id: 'srv_1', name: 'General Health Checkup', description: 'Complete physical checkup & vitals', price: '₹500', duration: '30 mins' },
+      { _id: 'srv_2', name: 'Vaccination & Immunization', description: 'Core preventative vaccines', price: '₹800', duration: '20 mins' },
+      { _id: 'srv_3', name: 'Luxury Grooming & Spa', description: 'Bath, hair trimming & ear cleaning', price: '₹1200', duration: '60 mins' },
+      { _id: 'srv_4', name: 'Dental Care & Scaling', description: 'Oral inspection & tartar cleaning', price: '₹1500', duration: '45 mins' },
+      { _id: 'srv_5', name: '24/7 Emergency Care', description: 'Critical care & trauma triage', price: '₹2000', duration: '60 mins' },
+      { _id: 'srv_6', name: 'Digital Health Records', description: 'Permanent paperless diagnostic history and verified prescriptions', price: 'Included', duration: 'Instant' },
+    ];
+
+    const INITIAL_PETS = [
+      {
+        _id: 'pet_1',
+        name: 'Bruno',
+        species: 'Dog',
+        breed: 'Labrador Retriever',
+        gender: 'Male',
+        age: 3,
+        weight: 28,
+        color: 'Golden Yellow',
+        image: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80',
+        vaccinationStatus: 'Up to date',
+        medicalNotes: 'Friendly, active family canine. Rabies immunization verified.',
+        owner: { _id: 'usr_owner_1', name: 'Rahul Sharma', phone: '+91 98112 23344', email: 'rahul@example.com' },
+        createdAt: new Date().toISOString(),
+      },
+      {
+        _id: 'pet_2',
+        name: 'Milo',
+        species: 'Cat',
+        breed: 'Persian Longhair',
+        gender: 'Male',
+        age: 2,
+        weight: 4.5,
+        color: 'Snow White',
+        image: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=600&q=80',
+        vaccinationStatus: 'Due Soon',
+        medicalNotes: 'Indoor cat, sensitive coat, regular de-shedding needed.',
+        owner: { _id: 'usr_owner_1', name: 'Rahul Sharma', phone: '+91 98112 23344', email: 'rahul@example.com' },
+        createdAt: new Date().toISOString(),
+      },
+      {
+        _id: 'pet_3',
+        name: 'Bella',
+        species: 'Dog',
+        breed: 'Beagle',
+        gender: 'Female',
+        age: 1,
+        weight: 11,
+        color: 'Tricolor',
+        image: 'https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&w=600&q=80',
+        vaccinationStatus: 'Up to date',
+        medicalNotes: 'Puppy vaccination schedule fully completed.',
+        owner: { _id: 'usr_owner_2', name: 'Priya Patel', phone: '+91 98223 34455', email: 'priya@example.com' },
+        createdAt: new Date().toISOString(),
+      },
+      {
+        _id: 'pet_4',
+        name: 'Rocky',
+        species: 'Dog',
+        breed: 'German Shepherd',
+        gender: 'Male',
+        age: 4,
+        weight: 34,
+        color: 'Black & Tan',
+        image: 'https://images.unsplash.com/photo-1589941013453-ec89f33b5455?auto=format&fit=crop&w=600&q=80',
+        vaccinationStatus: 'Up to date',
+        medicalNotes: 'Agile guard dog, routine checkup on schedule.',
+        owner: { _id: 'usr_owner_1', name: 'Rahul Sharma', phone: '+91 98112 23344', email: 'rahul@example.com' },
+        createdAt: new Date().toISOString(),
+      }
+    ];
+
+    const INITIAL_APPOINTMENTS = [
+      {
+        _id: 'apt_1',
+        pet: { _id: 'pet_1', name: 'Bruno', species: 'Dog', breed: 'Labrador Retriever', owner: { name: 'Rahul Sharma', phone: '+91 98112 23344' } },
+        owner: { _id: 'usr_owner_1', name: 'Rahul Sharma', phone: '+91 98112 23344' },
+        service: 'General Health Checkup',
+        appointmentDate: '2026-10-15',
+        appointmentTime: '10:30 AM',
+        reason: 'Routine seasonal checkup and wellness inspection',
+        status: 'Confirmed',
+        notes: 'Owner requested early morning appointment.',
+        createdAt: new Date().toISOString(),
+      },
+      {
+        _id: 'apt_2',
+        pet: { _id: 'pet_2', name: 'Milo', species: 'Cat', breed: 'Persian Longhair', owner: { name: 'Rahul Sharma', phone: '+91 98112 23344' } },
+        owner: { _id: 'usr_owner_1', name: 'Rahul Sharma', phone: '+91 98112 23344' },
+        service: 'Vaccination & Immunization',
+        appointmentDate: '2026-10-18',
+        appointmentTime: '02:00 PM',
+        reason: 'Annual rabies and feline booster vaccine',
+        status: 'Pending',
+        notes: '',
+        createdAt: new Date().toISOString(),
+      },
+      {
+        _id: 'apt_3',
+        pet: { _id: 'pet_3', name: 'Bella', species: 'Dog', breed: 'Beagle', owner: { name: 'Priya Patel', phone: '+91 98223 34455' } },
+        owner: { _id: 'usr_owner_2', name: 'Priya Patel', phone: '+91 98223 34455' },
+        service: 'Dental Care & Scaling',
+        appointmentDate: '2026-10-22',
+        appointmentTime: '11:00 AM',
+        reason: 'Tartar scaling and clean',
+        status: 'Pending',
+        notes: '',
+        createdAt: new Date().toISOString(),
+      }
+    ];
+
+    const INITIAL_RECORDS = [
+      {
+        _id: 'rec_1',
+        pet: { _id: 'pet_1', name: 'Bruno', species: 'Dog', breed: 'Labrador Retriever' },
+        veterinarian: { name: 'Dr. Aditi Sharma' },
+        diagnosis: 'Seasonal Contact Dermatitis',
+        symptoms: 'Mild itching on paws and abdomen',
+        treatment: 'Antihistamine wash and oral tablets',
+        prescription: 'Cetirizine 10mg: 1 tab once daily for 5 days\nMedicated chlorhexidine wash twice weekly',
+        vaccination: 'Rabies Booster #RB-2026',
+        notes: 'Advised single-protein diet; avoid poultry.',
+        createdAt: new Date().toISOString(),
+      },
+      {
+        _id: 'rec_2',
+        pet: { _id: 'pet_2', name: 'Milo', species: 'Cat', breed: 'Persian Longhair' },
+        veterinarian: { name: 'Dr. Aditi Sharma' },
+        diagnosis: 'Grade 1 Gingivitis',
+        symptoms: 'Mild tartar accumulation along upper premolars',
+        treatment: 'Ultrasonic dental scaling and polish',
+        prescription: 'Stomodine antiseptic gel to gums daily for 5 days',
+        vaccination: 'Tricat Trio Booster',
+        notes: 'Recommend dental hygiene dry food formulation.',
+        createdAt: new Date().toISOString(),
+      }
+    ];
+
+    function getStorage(key, fallback) {
+      try {
+        const val = localStorage.getItem('petcare_' + key);
+        return val ? JSON.parse(val) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    }
+
+    function setStorage(key, val) {
+      try {
+        localStorage.setItem('petcare_' + key, JSON.stringify(val));
+      } catch (e) {}
+    }
+
+    // Mock API request dispatcher for static/offline hosting
+    function handleMockRequest(endpoint, method, body, token) {
+      let users = getStorage('users', INITIAL_USERS);
+      let pets = getStorage('pets', INITIAL_PETS);
+      let appointments = getStorage('appointments', INITIAL_APPOINTMENTS);
+      let records = getStorage('records', INITIAL_RECORDS);
+      let services = getStorage('services', INITIAL_SERVICES);
+
+      let currentUser = null;
+      if (token) {
+        currentUser = users.find(u => u.token === token) || null;
+      }
+      if (!currentUser) {
+        try {
+          currentUser = JSON.parse(localStorage.getItem('petCareUser') || 'null');
+        } catch(e) {}
+      }
+
+      // 1. AUTH: LOGIN
+      if (endpoint === '/auth/login' && method === 'POST') {
+        const { email, password } = body || {};
+        let found = users.find(u => u.email.toLowerCase() === (email || '').toLowerCase().trim());
+        if (!found) {
+          const role = (email && (email.includes('admin') || email.includes('vet') || email.includes('dr.'))) ? 'veterinarian' : 'owner';
+          found = {
+            _id: 'usr_' + Date.now(),
+            name: (email ? email.split('@')[0] : 'Demo User').replace('.', ' ').toUpperCase(),
+            email: email || 'user@example.com',
+            phone: '+91 98765 00000',
+            password: password || 'password123',
+            role: role,
+            token: 'mock_token_' + Date.now(),
+          };
+          users.push(found);
+          setStorage('users', users);
+        }
+        return {
+          _id: found._id,
+          name: found.name,
+          email: found.email,
+          phone: found.phone,
+          role: found.role,
+          token: found.token || 'mock_token_' + found._id,
+        };
+      }
+
+      // 2. AUTH: REGISTER
+      if (endpoint === '/auth/register' && method === 'POST') {
+        const { name, email, phone, role } = body || {};
+        const newUser = {
+          _id: 'usr_' + Date.now(),
+          name: name || 'Demo User',
+          email: email || `user_${Date.now()}@example.com`,
+          phone: phone || '+91 99999 99999',
+          role: role || 'owner',
+          token: 'mock_token_' + Date.now(),
+        };
+        users.push(newUser);
+        setStorage('users', users);
+        return newUser;
+      }
+
+      // 3. PETS: GET
+      if (endpoint === '/pets' && method === 'GET') {
+        if (currentUser && currentUser.role === 'owner') {
+          const ownerPets = pets.filter(p => p.owner && (p.owner._id === currentUser._id || p.owner.email === currentUser.email));
+          return ownerPets.length > 0 ? ownerPets : pets;
+        }
+        return pets;
+      }
+
+      // 4. PETS: POST (Add Pet)
+      if (endpoint === '/pets' && method === 'POST') {
+        const newPet = {
+          ...body,
+          _id: 'pet_' + Date.now(),
+          owner: currentUser ? { _id: currentUser._id, name: currentUser.name, phone: currentUser.phone, email: currentUser.email } : { name: 'Rahul Sharma', phone: '+91 98112 23344' },
+          createdAt: new Date().toISOString(),
+        };
+        pets.unshift(newPet);
+        setStorage('pets', pets);
+        return newPet;
+      }
+
+      // 5. PETS: DELETE
+      if (endpoint.startsWith('/pets/') && method === 'DELETE') {
+        const id = endpoint.split('/pets/')[1];
+        pets = pets.filter(p => p._id !== id);
+        setStorage('pets', pets);
+        return { message: 'Pet removed successfully' };
+      }
+
+      // 6. APPOINTMENTS: GET
+      if (endpoint === '/appointments' && method === 'GET') {
+        if (currentUser && currentUser.role === 'owner') {
+          const userAppts = appointments.filter(a => a.owner && (a.owner._id === currentUser._id || a.owner.email === currentUser.email));
+          return userAppts.length > 0 ? userAppts : appointments;
+        }
+        return appointments;
+      }
+
+      // 7. APPOINTMENTS: POST (Book Appointment)
+      if (endpoint === '/appointments' && method === 'POST') {
+        const petObj = pets.find(p => p._id === body.pet) || pets[0];
+        const newApt = {
+          _id: 'apt_' + Date.now(),
+          pet: petObj ? { _id: petObj._id, name: petObj.name, species: petObj.species, breed: petObj.breed, owner: petObj.owner } : { name: 'My Pet' },
+          owner: petObj ? petObj.owner : (currentUser || { name: 'Pet Owner' }),
+          service: body.service || 'General Health Checkup',
+          appointmentDate: body.appointmentDate || new Date().toISOString().split('T')[0],
+          appointmentTime: body.appointmentTime || '10:00 AM',
+          reason: body.reason || 'Routine Visit',
+          notes: body.notes || '',
+          status: 'Pending',
+          createdAt: new Date().toISOString(),
+        };
+        appointments.unshift(newApt);
+        setStorage('appointments', appointments);
+        return newApt;
+      }
+
+      // 8. APPOINTMENTS: PUT (Update Status)
+      if (endpoint.startsWith('/appointments/') && method === 'PUT') {
+        const id = endpoint.split('/appointments/')[1];
+        const aptIndex = appointments.findIndex(a => a._id === id);
+        if (aptIndex !== -1) {
+          appointments[aptIndex] = { ...appointments[aptIndex], ...body };
+          setStorage('appointments', appointments);
+          return appointments[aptIndex];
+        }
+        return { message: 'Appointment updated' };
+      }
+
+      // 9. MEDICAL RECORDS: GET
+      if (endpoint === '/medical-records' && method === 'GET') {
+        return records;
+      }
+
+      // 10. MEDICAL RECORDS: POST
+      if (endpoint === '/medical-records' && method === 'POST') {
+        const petObj = pets.find(p => p._id === body.pet) || pets[0];
+        const newRecord = {
+          _id: 'rec_' + Date.now(),
+          pet: petObj ? { _id: petObj._id, name: petObj.name, species: petObj.species, breed: petObj.breed } : { name: 'Pet Patient' },
+          veterinarian: { name: (currentUser && currentUser.name) || 'Dr. Aditi Sharma' },
+          diagnosis: body.diagnosis,
+          symptoms: body.symptoms || '',
+          treatment: body.treatment || '',
+          prescription: body.prescription || '',
+          vaccination: body.vaccination || '',
+          notes: body.notes || '',
+          createdAt: new Date().toISOString(),
+        };
+        records.unshift(newRecord);
+        setStorage('records', records);
+        return newRecord;
+      }
+
+      // 11. SERVICES: GET
+      if (endpoint === '/services' && method === 'GET') {
+        return services;
+      }
+
+      return { status: 'OK' };
+    }
+
+    // Helper for API calls with automatic static host & offline fallback
+    async function apiRequest(endpoint, method = 'GET', body = null, token = null) {
+      const isGitHubPages = window.location.hostname.includes('github.io');
+      const customBackendUrl = localStorage.getItem('petCareBackendUrl') || '';
+
+      // If running on local server or custom backend URL configured, attempt real API request
+      if (!isGitHubPages || customBackendUrl) {
+        try {
+          const baseUrl = customBackendUrl || '';
+          const headers = { 'Content-Type': 'application/json' };
+          if (token) headers['Authorization'] = `Bearer ${token}`;
+          const config = { method, headers };
+          if (body) config.body = JSON.stringify(body);
+
+          const res = await fetch(baseUrl + '/api' + endpoint, config);
+          const contentType = res.headers.get('content-type') || '';
+
+          if (contentType.includes('application/json')) {
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || 'API request failed');
+            return data;
+          }
+          console.warn('Backend responded with non-JSON response; seamlessly falling back to client storage.');
+        } catch (err) {
+          if (!err.message.includes('JSON') && !err.message.includes('Failed to fetch') && !err.message.includes('NetworkError')) {
+            throw err;
+          }
+          console.warn('Network call failed, switching to client storage:', err);
+        }
+      }
+
+      // Seamless fallback to client-side MockDB for GitHub Pages static preview
+      return handleMockRequest(endpoint, method, body, token);
     }
 
     function App() {
@@ -429,12 +814,34 @@
                 <span>PetCare<span className="fw-light text-dark fs-6 ms-1">Plus</span></span>
               </span>
 
-              {/* SOS Hotline Button */}
+              {/* SOS Hotline Button & Mode Pill */}
               <div className="d-none d-md-flex align-items-center gap-2 ms-4">
                 <button className="btn btn-sm btn-outline-danger d-flex align-items-center gap-2 rounded-pill px-3" onClick={() => setShowSosModal(true)}>
                   <span className="spinner-grow spinner-grow-sm text-danger" role="status"></span>
                   <span className="fw-semibold">24/7 Vet SOS Hotline</span>
                 </button>
+                <span
+                  className="badge rounded-pill bg-light text-secondary border d-flex align-items-center gap-1 px-3 py-2 cursor-pointer"
+                  title="Click to check backend status or enter custom API URL"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    const current = localStorage.getItem('petCareBackendUrl') || '';
+                    const newUrl = prompt('🔗 PetCare Backend API Endpoint:\n\n• Leave blank for Static Demo Mode (Interactive & Persistent)\n• Or paste your live backend URL (e.g. https://your-backend.onrender.com):', current);
+                    if (newUrl !== null) {
+                      if (newUrl.trim()) {
+                        localStorage.setItem('petCareBackendUrl', newUrl.trim().replace(/\/+$/, ''));
+                      } else {
+                        localStorage.removeItem('petCareBackendUrl');
+                      }
+                      window.location.reload();
+                    }
+                  }}
+                >
+                  <span className="spinner-grow spinner-grow-sm text-success" style={{ width: '7px', height: '7px' }}></span>
+                  <span className="small fw-semibold text-muted">
+                    {localStorage.getItem('petCareBackendUrl') ? 'Connected API' : (window.location.hostname.includes('github.io') ? 'GitHub Pages Demo' : 'Local Node Server')}
+                  </span>
+                </span>
               </div>
 
               <div className="d-flex align-items-center gap-2 ms-auto">
