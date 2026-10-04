@@ -5,6 +5,7 @@ A complete, modern, and clean Full-Stack **MERN (MongoDB, Express.js, React.js, 
 Designed for veterinary clinics and pet owners to streamline appointment scheduling, manage biological pet profiles, preserve medical records & prescriptions, and maintain clinical services.
 
 ---
+Live Demo:https://jhaabhi680-sudo.github.io/pet-care-management-system/
 
 ## 📑 Table of Contents
 1. [Project Overview](#-project-overview)
