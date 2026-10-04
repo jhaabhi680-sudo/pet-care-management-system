@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: petcare-portal
+    env: node
+    buildCommand: npm install
+    startCommand: node app_runner.js
+    plan: free
